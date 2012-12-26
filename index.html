@@ -1,0 +1,367 @@
+<html>
+<head>
+<title>Davsktop</title>
+<link rel="stylesheet" type="text/css" href="davsktop.css"/>
+<script content="text/javascript">
+// default configuration
+BACKGROUND_IMAGE = undefined;
+TEXT_MIME_PATTERN = /^text\//;
+</script>
+<script content="text/javascript" src="config.js"></script>
+<script content="text/javascript">
+gui = {};
+</script>
+<script content="text/javascript" src="statescribe.js"></script>
+<script content="text/javascript" src="webdav.js"></script>
+<script content="text/javascript">
+months = [
+	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+containers = [];
+content_cache = {};
+layout_cache = {};
+function formatTime(s) {
+	var time = new Date(s);
+	return months[time.getMonth()] +
+		" " + time.getDate() + " " +
+		("0" + time.getHours()).slice(- 2) + ":" +
+		("0" + time.getMinutes()).slice(- 2) + ":" +
+		("0" + time.getSeconds()).slice(- 2);
+}
+function initItem(item, parent, path, size, time, type) {
+	var host = window.location.protocol + "//" + window.location.host;
+	item.$name = path.substring(parent.length);
+	item.$size = size ? size + "byte" : "";
+	item.$time = formatTime(time);
+	item.$url = host + path;
+	//if (type === "httpd/unix-directory") {
+	// when a directory has index.html, apache says the type is text/html
+	if (path.match(/\/$/)) {
+		item.$icon = "folder.png";
+		item.addEventListener("dblclick", function() {
+			openPath(path);
+		});
+	} else if (type.match(TEXT_MIME_PATTERN)) {
+		item.$icon = "text.png";
+		item.addEventListener("dblclick", function() {
+			openPath(path);
+		});
+	} else {
+		item.$icon = "unknown.png";
+	}
+	item.addEventListener("dragstart", function(event) {
+		event.dataTransfer.effectAllowed = "copyMove";
+		event.dataTransfer.setData("path", path);
+		event.dataTransfer.setData("downloadurl", type + ":" + name + ":" + host + path);
+	});
+}
+function firstTagContent(element, ns, name, alt) {
+	var tags = element.getElementsByTagNameNS(ns, name);
+	return 0 < tags.length ? tags[0].textContent : alt;
+}
+function display(container) {
+	var resp = content_cache[container.$title].getElementsByTagNameNS("DAV:", "response");
+	var info = [];
+	for (var i = 0; i < resp.length; i++) {
+		var path = firstTagContent(resp[i], "DAV:", "href");
+		if (path !== container.$title) {
+			info.push({
+				"path":path,
+				"size":firstTagContent(resp[i], "DAV:", "getcontentlength"),
+				"time":firstTagContent(resp[i], "DAV:", "getlastmodified"),
+				"type":firstTagContent(resp[i], "DAV:", "getcontenttype", ""),
+			});
+			if (! layout_cache[path]) {
+				layout_cache[path] = {
+					"x":firstTagContent(resp[i], "", "x", window.innerWidth / 4),
+					"y":firstTagContent(resp[i], "", "y", window.innerHeight / 4),
+					"w":firstTagContent(resp[i], "", "w", window.innerWidth / 2),
+					"h":firstTagContent(resp[i], "", "h", window.innerHeight / 2),
+				};
+			}
+		}
+	}
+	info.sort(function(a, b) {
+		if (a["path"] < b["path"]) {
+			return - 1;
+		}
+		if (a["path"] > b["path"]) {
+			return + 1;
+		}
+		return 0;
+	});
+	var content = gui.list1();
+	for (var i = 0; i < info.length; i++) {
+		var item = gui.item1();
+		initItem(item, container.$title, info[i].path, info[i].size, info[i].time, info[i].type);
+		content.$items.appendChild(item);
+	}
+	container.$content = content;
+}
+function focus(target) {
+	containers.splice(containers.indexOf(target), 1);
+	for (var i = 0; i < containers.length; i++) {
+		containers[i].style.zIndex = i;
+		containers[i].className = "container";
+	}
+	containers.push(target);
+	target.style.zIndex = containers.length;
+	target.className = "container foreground-container";
+}
+function openPath(path) {
+	var layout = layout_cache[path];
+	var x = layout.x;
+	var y = layout.y;
+	var w = layout.w;
+	var h = layout.h;
+	for (var i = 0; i < containers.length; i++) {
+		if (containers[i].$title === path) {
+			focus(containers[i]);
+			return;
+		}
+	}
+	if (path.match(/\/$/)) {
+		var container = gui.folder_container();
+		initContainer(container, x, y, w, h);
+		container.$title = path;
+		dav_propfind(path);
+		// reload
+		container.$reload.addEventListener("click", function(event) {
+			dav_propfind(path);
+			return false;
+		});
+	} else {
+		var container = gui.text_container();
+		initContainer(container, x, y, w, h);
+		// key down
+		document.addEventListener("keydown", function(event) {
+			if (event.keyCode === 9) { // tab key
+				var start = container.$textarea.selectionStart;
+				var end = container.$textarea.selectionEnd;
+				var before = container.$text.substring(0, start);
+				var after = container.$text.substring(end);
+ 				container.$text = before + "\t" + after;
+				container.$textarea.selectionStart = start + 1;
+				container.$textarea.selectionEnd = start + 1;
+				event.preventDefault();
+				return false;
+			}
+			return true;
+		});
+		// upload
+		container.$upload.addEventListener("click", function(event) {
+			if (container.$text !== content_cache[path]) {
+				dav_put(path, container.$text);
+			}
+			return false;
+		});
+		// reload
+		container.$reload.addEventListener("click", function(event) {
+			dav_get(path);
+			return false;
+		});
+		container.$title = path;
+		dav_get(path);
+	}
+}
+function nameDialog(fixed, arg, func) {
+	if (fixed) {
+		func(arg);
+	} else {
+		var base = document.getElementById("base");
+		var dialog = gui.name();
+		dialog.$zIndex = containers.length;
+		dialog.$message = "new name";
+		dialog.$text = arg; // default value
+		dialog.$input.addEventListener("keydown", function(event) {
+			if (event.keyCode === 13) { // enter key
+				base.removeChild(dialog);
+				func(dialog.$text);
+			}
+		});
+		dialog.$ok.addEventListener("click", function() {
+			base.removeChild(dialog);
+			func(dialog.$text);
+		});
+		base.appendChild(dialog);
+		dialog.$input.focus();
+	}
+}
+function initContainer(container, x, y, w, h) {
+	var base = document.getElementById("base");
+	var dx;
+	var dy;
+
+	// focus
+	container.addEventListener("mousedown", function(event) {
+		focus(container);
+	});
+
+	// close
+	container.$close.addEventListener("click", function(event) {
+		base.removeChild(container);
+		containers.splice(containers.indexOf(container), 1);
+		content_cache[container.$title] = undefined;
+		// NOTE: layout_cache is kept because PROPPATCH may be not possible.
+		return false;
+	});
+
+	// move
+	container.style.left = x;
+	container.style.top = y;
+	var mousedown = function(event) {
+		dx = event.pageX - x;
+		dy = event.pageY - y;
+		var move = function(event) {
+			x = event.pageX - dx;
+			y = event.pageY - dy;
+			container.style.left = x < 0 ? 0 : x;
+			container.style.top = y < 0 ? 0 : y;
+			return false;
+		};
+		var up = function() {
+			window.removeEventListener("mousemove", move);
+			window.removeEventListener("mouseup", up);
+			// save property
+			dav_proppatch(container.$title, "x", x);
+			dav_proppatch(container.$title, "y", y);
+			layout_cache[container.$title] = {"x":x, "y":y, "w":w, "h":h};
+			return false;
+		};
+		window.addEventListener("mousemove", move);
+		window.addEventListener("mouseup", up);
+		event.preventDefault();
+		return false;
+	};
+	container.$drag.addEventListener("mousedown", mousedown);
+
+	// resize
+	container.style.width = w;
+	container.style.height = h;
+	container.$resize.addEventListener("mousedown", function(event) {
+		dx = event.pageX - w;
+		dy = event.pageY - h;
+		var move = function(event) {
+			w = event.pageX - dx;
+			h = event.pageY - dy;
+			container.style.width = w;
+			container.style.height = h;
+			return false;
+		};
+		var up = function() {
+			window.removeEventListener("mousemove", move);
+			window.removeEventListener("mouseup", up);
+			// save property
+			dav_proppatch(container.$title, "w", w);
+			dav_proppatch(container.$title, "h", h);
+			layout_cache[container.$title] = {"x":x, "y":y, "w":w, "h":h};
+			return false;
+		};
+		window.addEventListener("mousemove", move);
+		window.addEventListener("mouseup", up);
+		event.preventDefault();
+		return false;
+	});
+
+	// drop
+	container.addEventListener("dragover", function(event) {
+		event.preventDefault();
+		return false;
+	});
+	container.addEventListener("dragleave", function(event) {
+		event.preventDefault();
+		return false;
+	});
+	container.addEventListener("drop", function(event) {
+		if (0 < event.dataTransfer.files.length) {
+			for (var i = 0; i < event.dataTransfer.files.length; i++) {
+				var host = window.location.protocol + "//" + window.location.host;
+				var dst = container.$title;
+				dav_put_file(host, event.dataTransfer.files[i], dst);
+				focus(container);
+			}
+		} else if (event.dataTransfer.getData("new") === "folder") {
+			focus(container);
+			nameDialog(false, "new_folder", function(new_name) {
+				dav_mkcol(container.$title, new_name);
+			});
+		} else if (event.dataTransfer.getData("new") === "text") {
+			focus(container);
+			nameDialog(false, "new_file.txt", function(new_name) {
+				dav_put(container.$title + new_name, "");
+			});
+		} else {
+			var path = event.dataTransfer.getData("path"); 
+			var name = path.match(/\/([^\/]+\/?)$/)[1];
+			var src = path.substring(0, path.length - name.length);
+			var dst = container.$title;
+			var host = window.location.protocol + "//" + window.location.host;
+
+			var tags = content_cache[dst].getElementsByTagNameNS("DAV:", "href");
+			var set = {};
+			for (var i = 0; i < tags.length; i++) {
+				set[tags[i].textContent] = true;
+			}
+
+			nameDialog(! set[container.$title + name], name, function(new_name) {
+				switch (event.dataTransfer.dropEffect) {
+				case "copy":
+					dav_copy(host, src, dst, name, new_name);
+					break;
+				case "move":
+				default: // for chrome
+					dav_move(host, src, dst, name, new_name);
+					break;
+				}
+			});
+			focus(container);
+		}
+		event.preventDefault();
+		return false;
+	});
+
+	containers.push(container);
+	base.appendChild(container);
+	focus(container);
+}
+function newFile(type, event) {
+	event.dataTransfer.setData("new", type);
+	event.dataTransfer.effectAllowed = "copy";
+}
+function remove(event) {
+	var path = event.dataTransfer.getData("path"); 
+	var name = path.match(/\/([^\/]+\/?)$/)[1];
+	var folder = path.substring(0, path.length - name.length);
+	dav_delete(folder, name);
+	event.preventDefault();
+}
+window.onload = function() {
+	document.getElementsByTagName("body")[0].setAttribute("background", BACKGROUND_IMAGE);
+	var req = new XMLHttpRequest();
+	req.open("PROPFIND", "/", false);
+	req.setRequestHeader("Depth", "0");
+	req.send("");
+	var resp = req.responseXML.getElementsByTagNameNS("DAV:", "response")[0];
+	layout_cache["/"] = {
+		"x":firstTagContent(resp, "", "x", window.innerWidth / 4),
+		"y":firstTagContent(resp, "", "y", window.innerHeight / 4),
+		"w":firstTagContent(resp, "", "w", window.innerWidth / 2),
+		"h":firstTagContent(resp, "", "h", window.innerHeight / 2),
+	};
+};
+</script>
+</head>
+<body>
+<img src="rootfolder.png" style="cursor:pointer; opacity:0.5; -moz-user-select:none;" draggable="false" ondblclick="openPath('/');" title="Root Folder"/>
+<br/>
+<img src="newfolder.png" style="cursor:move; opacity:0.5;" draggable="true" ondragstart="newFile('folder', event);" title="New Folder"/>
+<br/>
+<img src="newtext.png" style="cursor:move; opacity:0.5;" draggable="true" ondragstart="newFile('text', event);" title="New Text File"/>
+<br/>
+<img src="trashbin.png" style="opacity:0.5;" draggable="false" ondragover="event.preventDefault();" ondrop="remove(event);" title="Trash Bin"/>
+<br/>
+<div id="base"></div>
+<a href="about.html" target="_blank" style="position:absolute; top:0px; right:0px;">About Davsktop</a>
+</body>
+</html>
+

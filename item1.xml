@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tr>
+<td style="border-bottom:1px solid lightgray; padding:0px; margin:0px;"><span draggable="true" style="cursor:pointer;"><img align="left" draggable="false" style="opacity:0.5;"><![CDATA[$icon=src]]></img><span><![CDATA[$name=textContent]]></span></span><a target="_blank" draggable="false"><![CDATA[$url=href]]><img align="center" src="link.png" draggable="false" style="opacity:0.5;"/></a></td>
+<td align="center" style="border-bottom:1px solid lightgray; padding:0px; margin:0px;"><![CDATA[$time=textContent]]></td>
+<td align="right" style="border-bottom:1px solid lightgray; padding:0px; margin:0px;"><![CDATA[$size=textContent]]></td>
+</tr>
+

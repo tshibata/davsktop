@@ -1,0 +1,145 @@
+#!/usr/bin/ruby
+require "optparse"
+require "stringio"
+require "xml/libxml"
+
+$direct = /^\s*([\$_[:alpha:]][\$_[:alnum:]]*)\s*(?:\/\/(.*))?$/
+$indirect = /^\s*([\$_[:alpha:]][\$_[:alnum:]]*)\s*=\s*([\.\$\_[:alnum:]]+)\s*(?:\/\/(.*))?$/
+$destructive = /^\s*([\$_[:alpha:]][\$_[:alnum:]]*)\s*\!\s*(?:\/\/(.*))?$/
+
+# tags to be empty
+$empty_tags = [
+	"area",
+	"base",
+	"basefont",
+	"br",
+	"col",
+	"hr",
+	"img",
+	"input",
+	"isindex",
+	"link",
+	"meta",
+	"param",
+]
+
+class Walker
+	def walk(parent, node, provisional)
+		case node.node_type
+		when LibXML::XML::Node::TEXT_NODE
+			text = node.content.strip
+			text.gsub!(/\s+/," ");
+			if text.empty? # FIXME: option
+				return nil
+			else
+				return "document.createTextNode('#{text}')"
+			end
+		when LibXML::XML::Node::COMMENT_NODE
+			# FIXME
+			return nil
+		when LibXML::XML::Node::ELEMENT_NODE
+			var = "n#{@last_var}"
+			@last_var = @last_var + 1
+			@proc.puts "\tvar #{var}=document.createElement('#{node.name}');"
+			node.attributes.each do |attribute|
+				@proc.puts "\t#{var}.setAttribute('#{attribute.name}','#{attribute.value}');"
+			end
+			node.each do |child|
+				prologue = true
+				destructive = false
+				if child.cdata?
+					if not prologue
+						raise "Define conjunction before elements (line #{node.line_num})"
+					end
+					if provisional
+						raise "Error: You can't refer provisional element (line #{node.line_num})"
+					end
+					if $direct.match(child.content)
+						if @map.include?($1)
+							raise "Error: #{$1} is defined twice"
+						end
+						@map[$1] = $2
+						@proc.puts "\tObject.defineProperty(n0,'#{$1}',{"
+						@proc.puts "\t\tget:function(){return #{var};},"
+						@proc.puts "\t});"
+					elsif $indirect.match(child.content)
+						if @map.include?($1)
+							raise "Error: #{$1} is defined twice"
+						end
+						@map[$1] = $3
+						@proc.puts "\tObject.defineProperty(n0, '#{$1}',{"
+						@proc.puts "\t\tset:function(v){#{var}.#{$2}=v;},"
+						@proc.puts "\t\tget:function(){return #{var}.#{$2};},"
+						@proc.puts "\t});"
+					elsif $destructive.match(child.content)
+						if not parent
+							raise "Error: You can't replace root element (line #{node.line_num})"
+						end
+						if @map.include?($1)
+							raise "Error: #{$1} is defined twice"
+						end
+						@map[$1] = $2
+						@proc.puts "\tObject.defineProperty(n0,'#{$1}',{"
+						@proc.puts "\t\tset:function(v){#{parent}.replaceChild(v,#{var});#{var}=v;},"
+						@proc.puts "\t\tget:function(){return #{var};},"
+						@proc.puts "\t});"
+						destructive = true
+					end
+				else
+					jsdom = walk(var, child, provisional || destructive)
+					if jsdom
+						if $empty_tags.include?(node.name.downcase)
+							puts "Warning: #{node.name} should be empty (line #{node.line_num})"
+						end
+						prologue = false
+						@proc.puts "\t#{var}.appendChild(#{jsdom});"
+					end
+				end
+			end
+			return var
+		end
+		return nil
+	end
+	def initialize(root)
+		@last_var = 0
+		@map = {}
+		@proc = StringIO.new()
+		@var = walk(nil, root, false)
+	end
+	def var()
+		return @var
+	end
+	def proc()
+		return @proc.string
+	end
+end
+
+opt = OptionParser.new
+
+$output = "statescribe.js" # default value
+opt.on("-o file", "--output file") do |v|
+	$output = v
+end
+
+$prefix = "" # default value
+opt.on("-p prefix", "--prefix prefix") do |v|
+	$prefix = "#{v}."
+end
+
+opt.parse!(ARGV)
+
+buf = StringIO.new
+ARGV.each do |src|
+	dir = File.dirname(src)
+	sym = File.basename(src, ".*")
+	doc = XML::Document.file(src)
+	buf.puts "#{$prefix}#{sym}=function(){"
+	walker = Walker.new(doc.root)
+	buf.puts walker.proc
+	buf.puts "\treturn #{walker.var};"
+	buf.puts "};"
+end
+File.open($output, "w:utf-8") do |js|
+	js.puts buf.string
+end
+
