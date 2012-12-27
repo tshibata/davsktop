@@ -338,21 +338,26 @@ function remove(event) {
 window.onload = function() {
 	document.getElementsByTagName("body")[0].setAttribute("background", BACKGROUND_IMAGE);
 	var req = new XMLHttpRequest();
-	req.open("PROPFIND", "/", false);
+	req.open("PROPFIND", "/", true);
 	req.setRequestHeader("Depth", "0");
-	req.send("");
-	var resp = req.responseXML.getElementsByTagNameNS("DAV:", "response")[0];
-	layout_cache["/"] = {
-		"x":firstTagContent(resp, "", "x", window.innerWidth / 4),
-		"y":firstTagContent(resp, "", "y", window.innerHeight / 4),
-		"w":firstTagContent(resp, "", "w", window.innerWidth / 2),
-		"h":firstTagContent(resp, "", "h", window.innerHeight / 2),
+	req.onreadystatechange = function () {
+		if (req.readyState == 4) {
+			var resp = req.responseXML.getElementsByTagNameNS("DAV:", "response")[0];
+			layout_cache["/"] = {
+				"x":firstTagContent(resp, "", "x", window.innerWidth / 4),
+				"y":firstTagContent(resp, "", "y", window.innerHeight / 4),
+				"w":firstTagContent(resp, "", "w", window.innerWidth / 2),
+				"h":firstTagContent(resp, "", "h", window.innerHeight / 2),
+			};
+			document.getElementById("rootfolder").style.visibility = "visible";
+		}
 	};
+	req.send("");
 };
 </script>
 </head>
 <body>
-<img src="rootfolder.png" style="cursor:pointer; opacity:0.5; -moz-user-select:none;" draggable="false" ondblclick="openPath('/');" title="Root Folder"/>
+<img id="rootfolder" src="rootfolder.png" style="cursor:pointer; opacity:0.5; -moz-user-select:none; visibility:hidden;" draggable="false" ondblclick="openPath('/');" title="Root Folder"/>
 <br/>
 <img src="newfolder.png" style="cursor:move; opacity:0.5;" draggable="true" ondragstart="newFile('folder', event);" title="New Folder"/>
 <br/>
