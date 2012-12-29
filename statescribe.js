@@ -176,7 +176,7 @@ gui.item1=function(){
 		get:function(){return n5.href;},
 	});
 	var n6=document.createElement('img');
-	n6.setAttribute('align','center');
+	n6.setAttribute('align','top');
 	n6.setAttribute('src','link.png');
 	n6.setAttribute('draggable','false');
 	n6.setAttribute('style','opacity:0.5;');

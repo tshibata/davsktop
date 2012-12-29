@@ -11,7 +11,7 @@
 		</span>
 		<a target="_blank" draggable="false">
 			<![CDATA[$url=href]]>
-			<img align="center" src="link.png" draggable="false" style="opacity:0.5;"/>
+			<img align="top" src="link.png" draggable="false" style="opacity:0.5;"/>
 		</a>
 	</td>
 	<td align="center" style="border-bottom:1px solid lightgray; padding:0px; margin:0px;">
