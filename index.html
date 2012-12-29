@@ -209,7 +209,7 @@ function initContainer(container, x, y, w, h) {
 	// move
 	container.style.left = x;
 	container.style.top = y;
-	var mousedown = function(event) {
+	container.$drag.addEventListener("mousedown", function(event) {
 		dx = event.pageX - x;
 		dy = event.pageY - y;
 		var move = function(event) {
@@ -232,8 +232,7 @@ function initContainer(container, x, y, w, h) {
 		window.addEventListener("mouseup", up);
 		event.preventDefault();
 		return false;
-	};
-	container.$drag.addEventListener("mousedown", mousedown);
+	});
 
 	// resize
 	container.style.width = w;
