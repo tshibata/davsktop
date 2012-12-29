@@ -15,7 +15,7 @@ gui = {};
 <script content="text/javascript" src="webdav.js"></script>
 <script content="text/javascript">
 months = [
-	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 containers = [];
 content_cache = {};
@@ -69,14 +69,14 @@ function display(container) {
 				"path":path,
 				"size":firstTagContent(resp[i], "DAV:", "getcontentlength"),
 				"time":firstTagContent(resp[i], "DAV:", "getlastmodified"),
-				"type":firstTagContent(resp[i], "DAV:", "getcontenttype", ""),
+				"type":firstTagContent(resp[i], "DAV:", "getcontenttype", "")
 			});
 			if (! layout_cache[path]) {
 				layout_cache[path] = {
 					"x":firstTagContent(resp[i], "", "x", window.innerWidth / 4),
 					"y":firstTagContent(resp[i], "", "y", window.innerHeight / 4),
 					"w":firstTagContent(resp[i], "", "w", window.innerWidth / 2),
-					"h":firstTagContent(resp[i], "", "h", window.innerHeight / 2),
+					"h":firstTagContent(resp[i], "", "h", window.innerHeight / 2)
 				};
 			}
 		}
@@ -347,7 +347,7 @@ window.onload = function() {
 				"x":firstTagContent(resp, "", "x", window.innerWidth / 4),
 				"y":firstTagContent(resp, "", "y", window.innerHeight / 4),
 				"w":firstTagContent(resp, "", "w", window.innerWidth / 2),
-				"h":firstTagContent(resp, "", "h", window.innerHeight / 2),
+				"h":firstTagContent(resp, "", "h", window.innerHeight / 2)
 			};
 			document.getElementById("rootfolder").style.visibility = "visible";
 		}
