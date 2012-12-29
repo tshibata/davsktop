@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div>
-	<div class="title-bar"><![CDATA[$drag]]>
+	<div class="title-bar">
+		<![CDATA[$drag]]>
 		<span style="position:absolute; left:5px; cursor:move;">
 			<img src="folder.png" align="left" style="opacity:0.5;"/>
-			<span style="color:white; font-weight:bold;"><![CDATA[$title=textContent]]></span>
+			<span style="color:white; font-weight:bold;">
+				<![CDATA[$title=textContent]]>
+			</span>
 		</span>
 		<span style="position:absolute; right:5px; cursor:pointer;">
-			<img src="reload.png" align="center" style="opacity:0.5;" title="Reload"><![CDATA[$reload]]></img>
-			<img src="close.png" align="center" style="opacity:0.5;" title="Close"><![CDATA[$close]]></img>
+			<img src="reload.png" align="center" style="opacity:0.5;" title="Reload">
+				<![CDATA[$reload]]>
+			</img>
+			<img src="close.png" align="center" style="opacity:0.5;" title="Close">
+				<![CDATA[$close]]>
+			</img>
 		</span>
 	</div>
 	<div style="padding:2px; border:solid 1px; overflow:scroll; position:absolute; left:0px; right:0px; top:35px; bottom:0px;">
@@ -15,6 +22,8 @@
 			<![CDATA[$content !]]>
 		</table>
 	</div>
-	<div style="position:absolute; width:1em; height:1em; right:0px; bottom:0px; cursor:se-resize;"><![CDATA[$resize]]></div>
+	<div style="position:absolute; width:1em; height:1em; right:0px; bottom:0px; cursor:se-resize;">
+		<![CDATA[$resize]]>
+	</div>
 </div>
 
