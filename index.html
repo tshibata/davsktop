@@ -207,16 +207,16 @@ function initContainer(container, x, y, w, h) {
 	});
 
 	// move
-	container.style.left = x;
-	container.style.top = y;
+	container.style.left = x + "px";
+	container.style.top = y + "px";
 	container.$drag.addEventListener("mousedown", function(event) {
 		dx = event.pageX - x;
 		dy = event.pageY - y;
 		var move = function(event) {
 			x = event.pageX - dx;
 			y = event.pageY - dy;
-			container.style.left = x < 0 ? 0 : x;
-			container.style.top = y < 0 ? 0 : y;
+			container.style.left = (x < 0 ? 0 : x) + "px";
+			container.style.top = (y < 0 ? 0 : y) + "px";
 			return false;
 		};
 		var up = function() {
@@ -235,16 +235,16 @@ function initContainer(container, x, y, w, h) {
 	});
 
 	// resize
-	container.style.width = w;
-	container.style.height = h;
+	container.style.width = w + "px";
+	container.style.height = h + "px";
 	container.$resize.addEventListener("mousedown", function(event) {
 		dx = event.pageX - w;
 		dy = event.pageY - h;
 		var move = function(event) {
 			w = event.pageX - dx;
 			h = event.pageY - dy;
-			container.style.width = w < 100 ? 100 : w;
-			container.style.height = h < 100 ? 100 : h;
+			container.style.width = (w < 100 ? 100 : w) + "px";
+			container.style.height = (h < 100 ? 100 : h) + "px";
 			return false;
 		};
 		var up = function() {
