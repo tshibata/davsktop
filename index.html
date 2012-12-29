@@ -243,8 +243,8 @@ function initContainer(container, x, y, w, h) {
 		var move = function(event) {
 			w = event.pageX - dx;
 			h = event.pageY - dy;
-			container.style.width = w;
-			container.style.height = h;
+			container.style.width = w < 100 ? 100 : w;
+			container.style.height = h < 100 ? 100 : h;
 			return false;
 		};
 		var up = function() {
