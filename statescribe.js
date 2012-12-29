@@ -4,7 +4,7 @@ gui.folder_container=function(){
 	var n1=document.createElement('div');
 	n1.setAttribute('class','title-bar');
 	Object.defineProperty(n0,'$drag',{
-		get:function(){return n1;},
+		get:function(){return n1;}
 	});
 	var n2=document.createElement('span');
 	n2.setAttribute('style','position:absolute; left:5px; cursor:move;');
@@ -17,7 +17,7 @@ gui.folder_container=function(){
 	n4.setAttribute('style','color:white; font-weight:bold;');
 	Object.defineProperty(n0, '$title',{
 		set:function(v){n4.textContent=v;},
-		get:function(){return n4.textContent;},
+		get:function(){return n4.textContent;}
 	});
 	n2.appendChild(n4);
 	n1.appendChild(n2);
@@ -29,7 +29,7 @@ gui.folder_container=function(){
 	n6.setAttribute('style','opacity:0.5;');
 	n6.setAttribute('title','Reload');
 	Object.defineProperty(n0,'$reload',{
-		get:function(){return n6;},
+		get:function(){return n6;}
 	});
 	n5.appendChild(n6);
 	var n7=document.createElement('img');
@@ -38,7 +38,7 @@ gui.folder_container=function(){
 	n7.setAttribute('style','opacity:0.5;');
 	n7.setAttribute('title','Close');
 	Object.defineProperty(n0,'$close',{
-		get:function(){return n7;},
+		get:function(){return n7;}
 	});
 	n5.appendChild(n7);
 	n1.appendChild(n5);
@@ -49,14 +49,14 @@ gui.folder_container=function(){
 	n9.setAttribute('style','width:100%; border-spacing:0px; empty-cells:show;');
 	Object.defineProperty(n0,'$content',{
 		set:function(v){n8.replaceChild(v,n9);n9=v;},
-		get:function(){return n9;},
+		get:function(){return n9;}
 	});
 	n8.appendChild(n9);
 	n0.appendChild(n8);
 	var n10=document.createElement('div');
 	n10.setAttribute('style','position:absolute; width:1em; height:1em; right:0px; bottom:0px; cursor:se-resize;');
 	Object.defineProperty(n0,'$resize',{
-		get:function(){return n10;},
+		get:function(){return n10;}
 	});
 	n0.appendChild(n10);
 	return n0;
@@ -66,7 +66,7 @@ gui.text_container=function(){
 	var n1=document.createElement('div');
 	n1.setAttribute('class','title-bar');
 	Object.defineProperty(n0,'$drag',{
-		get:function(){return n1;},
+		get:function(){return n1;}
 	});
 	var n2=document.createElement('span');
 	n2.setAttribute('style','position:absolute; left:5px; cursor:move;');
@@ -79,7 +79,7 @@ gui.text_container=function(){
 	n4.setAttribute('style','color:white; font-weight:bold;');
 	Object.defineProperty(n0, '$title',{
 		set:function(v){n4.textContent=v;},
-		get:function(){return n4.textContent;},
+		get:function(){return n4.textContent;}
 	});
 	n2.appendChild(n4);
 	n1.appendChild(n2);
@@ -91,7 +91,7 @@ gui.text_container=function(){
 	n6.setAttribute('style','opacity:0.5;');
 	n6.setAttribute('title','Upload');
 	Object.defineProperty(n0,'$upload',{
-		get:function(){return n6;},
+		get:function(){return n6;}
 	});
 	n5.appendChild(n6);
 	var n7=document.createElement('img');
@@ -100,7 +100,7 @@ gui.text_container=function(){
 	n7.setAttribute('style','opacity:0.5;');
 	n7.setAttribute('title','Reload');
 	Object.defineProperty(n0,'$reload',{
-		get:function(){return n7;},
+		get:function(){return n7;}
 	});
 	n5.appendChild(n7);
 	var n8=document.createElement('img');
@@ -109,7 +109,7 @@ gui.text_container=function(){
 	n8.setAttribute('style','opacity:0.5;');
 	n8.setAttribute('title','Close');
 	Object.defineProperty(n0,'$close',{
-		get:function(){return n8;},
+		get:function(){return n8;}
 	});
 	n5.appendChild(n8);
 	n1.appendChild(n5);
@@ -119,18 +119,18 @@ gui.text_container=function(){
 	var n10=document.createElement('textarea');
 	n10.setAttribute('style','margin:0px; padding:0px; border:0px; width:100%; height:100%; resize:none;');
 	Object.defineProperty(n0,'$textarea',{
-		get:function(){return n10;},
+		get:function(){return n10;}
 	});
 	Object.defineProperty(n0, '$text',{
 		set:function(v){n10.value=v;},
-		get:function(){return n10.value;},
+		get:function(){return n10.value;}
 	});
 	n9.appendChild(n10);
 	n0.appendChild(n9);
 	var n11=document.createElement('div');
 	n11.setAttribute('style','position:absolute; width:1em; height:1em; right:0px; bottom:0px; cursor:se-resize;');
 	Object.defineProperty(n0,'$resize',{
-		get:function(){return n11;},
+		get:function(){return n11;}
 	});
 	n0.appendChild(n11);
 	return n0;
@@ -140,7 +140,7 @@ gui.list1=function(){
 	n0.setAttribute('style','width:100%; border-spacing:0px; empty-cells:show;');
 	var n1=document.createElement('tbody');
 	Object.defineProperty(n0,'$items',{
-		get:function(){return n1;},
+		get:function(){return n1;}
 	});
 	n0.appendChild(n1);
 	return n0;
@@ -158,13 +158,13 @@ gui.item1=function(){
 	n3.setAttribute('style','opacity:0.5;');
 	Object.defineProperty(n0, '$icon',{
 		set:function(v){n3.src=v;},
-		get:function(){return n3.src;},
+		get:function(){return n3.src;}
 	});
 	n2.appendChild(n3);
 	var n4=document.createElement('span');
 	Object.defineProperty(n0, '$name',{
 		set:function(v){n4.textContent=v;},
-		get:function(){return n4.textContent;},
+		get:function(){return n4.textContent;}
 	});
 	n2.appendChild(n4);
 	n1.appendChild(n2);
@@ -173,7 +173,7 @@ gui.item1=function(){
 	n5.setAttribute('draggable','false');
 	Object.defineProperty(n0, '$url',{
 		set:function(v){n5.href=v;},
-		get:function(){return n5.href;},
+		get:function(){return n5.href;}
 	});
 	var n6=document.createElement('img');
 	n6.setAttribute('align','top');
@@ -188,7 +188,7 @@ gui.item1=function(){
 	n7.setAttribute('style','border-bottom:1px solid lightgray; padding:0px; margin:0px;');
 	Object.defineProperty(n0, '$time',{
 		set:function(v){n7.textContent=v;},
-		get:function(){return n7.textContent;},
+		get:function(){return n7.textContent;}
 	});
 	n0.appendChild(n7);
 	var n8=document.createElement('td');
@@ -196,7 +196,7 @@ gui.item1=function(){
 	n8.setAttribute('style','border-bottom:1px solid lightgray; padding:0px; margin:0px;');
 	Object.defineProperty(n0, '$size',{
 		set:function(v){n8.textContent=v;},
-		get:function(){return n8.textContent;},
+		get:function(){return n8.textContent;}
 	});
 	n0.appendChild(n8);
 	return n0;
@@ -206,7 +206,7 @@ gui.name=function(){
 	n0.setAttribute('style','position:absolute; left:0; right:0; top:0; bottom:0;');
 	Object.defineProperty(n0, '$zIndex',{
 		set:function(v){n0.style.zIndex=v;},
-		get:function(){return n0.style.zIndex;},
+		get:function(){return n0.style.zIndex;}
 	});
 	var n1=document.createElement('div');
 	n1.setAttribute('style','position:absolute; left:0; right:0; top:0; bottom:0; background-color:gray; opacity:0.5;');
@@ -223,17 +223,17 @@ gui.name=function(){
 	var n5=document.createElement('span');
 	Object.defineProperty(n0, '$message',{
 		set:function(v){n5.textContent=v;},
-		get:function(){return n5.textContent;},
+		get:function(){return n5.textContent;}
 	});
 	n3.appendChild(n5);
 	var n6=document.createElement('input');
 	n6.setAttribute('type','text');
 	Object.defineProperty(n0,'$input',{
-		get:function(){return n6;},
+		get:function(){return n6;}
 	});
 	Object.defineProperty(n0, '$text',{
 		set:function(v){n6.value=v;},
-		get:function(){return n6.value;},
+		get:function(){return n6.value;}
 	});
 	n3.appendChild(n6);
 	var n7=document.createElement('div');
@@ -242,7 +242,7 @@ gui.name=function(){
 	n8.setAttribute('type','button');
 	n8.setAttribute('value','OK');
 	Object.defineProperty(n0,'$ok',{
-		get:function(){return n8;},
+		get:function(){return n8;}
 	});
 	n7.appendChild(n8);
 	n3.appendChild(n7);
