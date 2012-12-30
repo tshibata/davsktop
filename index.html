@@ -71,14 +71,14 @@ function parseProp(base, responseXML) {
 				"time":firstTagContent(resp[i], "DAV:", "getlastmodified"),
 				"type":firstTagContent(resp[i], "DAV:", "getcontenttype", "")
 			});
-			if (! layout_cache[path]) {
-				layout_cache[path] = {
-					"x":firstTagContent(resp[i], "", "x", window.innerWidth / 4),
-					"y":firstTagContent(resp[i], "", "y", window.innerHeight / 4),
-					"w":firstTagContent(resp[i], "", "w", window.innerWidth / 2),
-					"h":firstTagContent(resp[i], "", "h", window.innerHeight / 2)
-				};
-			}
+		}
+		if (! layout_cache[path]) {
+			layout_cache[path] = {
+				"x":firstTagContent(resp[i], "", "x", window.innerWidth / 4),
+				"y":firstTagContent(resp[i], "", "y", window.innerHeight / 4),
+				"w":firstTagContent(resp[i], "", "w", window.innerWidth / 2),
+				"h":firstTagContent(resp[i], "", "h", window.innerHeight / 2)
+			};
 		}
 	}
 	content_cache[base] = info;
@@ -345,13 +345,7 @@ window.onload = function() {
 	req.setRequestHeader("Depth", "0");
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) {
-			var resp = req.responseXML.getElementsByTagNameNS("DAV:", "response")[0];
-			layout_cache["/"] = {
-				"x":firstTagContent(resp, "", "x", window.innerWidth / 4),
-				"y":firstTagContent(resp, "", "y", window.innerHeight / 4),
-				"w":firstTagContent(resp, "", "w", window.innerWidth / 2),
-				"h":firstTagContent(resp, "", "h", window.innerHeight / 2)
-			};
+			parseProp("/", req.responseXML);
 			document.getElementById("rootfolder").style.visibility = "visible";
 		}
 	};
