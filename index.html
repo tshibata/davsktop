@@ -59,12 +59,12 @@ function firstTagContent(element, ns, name, alt) {
 	var tags = element.getElementsByTagNameNS(ns, name);
 	return 0 < tags.length ? tags[0].textContent : alt;
 }
-function display(container, responseXML) {
+function parseProp(base, responseXML) {
 	var resp = responseXML.getElementsByTagNameNS("DAV:", "response");
 	var info = [];
 	for (var i = 0; i < resp.length; i++) {
 		var path = firstTagContent(resp[i], "DAV:", "href");
-		if (path !== container.$title) {
+		if (path !== base) {
 			info.push({
 				"path":path,
 				"size":firstTagContent(resp[i], "DAV:", "getcontentlength"),
@@ -81,7 +81,10 @@ function display(container, responseXML) {
 			}
 		}
 	}
-	content_cache[container.$title] = info;
+	content_cache[base] = info;
+}
+function display(container) {
+	var info = content_cache[container.$title];
 	info.sort(function(a, b) {
 		if (a["path"] < b["path"]) {
 			return - 1;

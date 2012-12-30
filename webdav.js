@@ -110,10 +110,10 @@ function dav_propfind(path) {
 	req.setRequestHeader("Depth", "1");
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) {
+			parseProp(path, req.responseXML);
 			for (var i = 0; i < containers.length; i++) {
-				var container = containers[i];
-				if (container.$title === path) {
-					display(container, req.responseXML);
+				if (containers[i].$title === path) {
+					display(containers[i]);
 				}
 			}
 		}
