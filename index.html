@@ -59,8 +59,8 @@ function firstTagContent(element, ns, name, alt) {
 	var tags = element.getElementsByTagNameNS(ns, name);
 	return 0 < tags.length ? tags[0].textContent : alt;
 }
-function display(container) {
-	var resp = content_cache[container.$title].getElementsByTagNameNS("DAV:", "response");
+function display(container, responseXML) {
+	var resp = responseXML.getElementsByTagNameNS("DAV:", "response");
 	var info = [];
 	for (var i = 0; i < resp.length; i++) {
 		var path = firstTagContent(resp[i], "DAV:", "href");
@@ -81,6 +81,7 @@ function display(container) {
 			}
 		}
 	}
+	content_cache[container.$title] = info;
 	info.sort(function(a, b) {
 		if (a["path"] < b["path"]) {
 			return - 1;
@@ -296,10 +297,10 @@ function initContainer(container, x, y, w, h) {
 			var dst = container.$title;
 			var host = window.location.protocol + "//" + window.location.host;
 
-			var tags = content_cache[dst].getElementsByTagNameNS("DAV:", "href");
+			var content = content_cache[dst];
 			var set = {};
-			for (var i = 0; i < tags.length; i++) {
-				set[tags[i].textContent] = true;
+			for (var i = 0; i < content.length; i++) {
+				set[content[i].path] = true;
 			}
 
 			nameDialog(! set[container.$title + name], name, function(new_name) {
