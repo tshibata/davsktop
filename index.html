@@ -55,32 +55,87 @@ function initItem(item, parent, path, size, time, type) {
 		event.dataTransfer.setData("downloadurl", type + ":" + name + ":" + host + path);
 	});
 }
-function firstTagContent(element, ns, name, alt) {
-	var tags = element.getElementsByTagNameNS(ns, name);
-	return 0 < tags.length ? tags[0].textContent : alt;
-}
-function parseProp(base, responseXML) {
-	var resp = responseXML.getElementsByTagNameNS("DAV:", "response");
-	var info = [];
-	for (var i = 0; i < resp.length; i++) {
-		var path = firstTagContent(resp[i], "DAV:", "href");
-		if (path !== base) {
-			info.push({
-				"path":path,
-				"size":firstTagContent(resp[i], "DAV:", "getcontentlength"),
-				"time":firstTagContent(resp[i], "DAV:", "getlastmodified"),
-				"type":firstTagContent(resp[i], "DAV:", "getcontenttype", "")
-			});
-		}
-		if (! layout_cache[path]) {
-			layout_cache[path] = {
-				"x":firstTagContent(resp[i], "", "x", window.innerWidth / 4),
-				"y":firstTagContent(resp[i], "", "y", window.innerHeight / 4),
-				"w":firstTagContent(resp[i], "", "w", window.innerWidth / 2),
-				"h":firstTagContent(resp[i], "", "h", window.innerHeight / 2)
-			};
+function scanNode(ns, node, map) {
+	for (var i = 0; i < node.childNodes.length; i++) {
+		if (node.childNodes[i].nodeType === 1) { // element
+			for (var j = 0; j < node.childNodes[i].attributes.length; j++) {
+				var m = node.childNodes[i].attributes[j].name.match(/^xmlns:(.*)$/);
+				if (m) {
+					ns[m[1]] = node.childNodes[i].attributes[j].value;
+				}
+			}
+			var nodeName = node.childNodes[i].nodeName;
+			var m = nodeName.match(/^([^:]*):(.*)$/);
+			if (m) {
+				nodeName = ns[m[1]]+m[2];
+			}
+			if (map[nodeName]) {
+				var f = function(){};
+				f.prototype = ns;
+				map[nodeName](new f(), node.childNodes[i]);
+			}
 		}
 	}
+}
+function parseProp(base, responseXML) {
+	var info = [];
+	scanNode({}, responseXML, {
+		"DAV:multistatus":function(ns, node) {
+			scanNode(ns, node, {
+				"DAV:response":function(ns, node) {
+					var path;
+					var size;
+					var time;
+					var type = "";
+					var x = window.innerWidth / 4;
+					var y = window.innerHeight / 4;
+					var w = window.innerWidth / 2;
+					var h = window.innerHeight / 2;
+					scanNode(ns, node, {
+						"DAV:href":function(ns, node) {
+							path = node.firstChild.nodeValue;
+						},
+						"DAV:propstat":function(ns, node) {
+							scanNode(ns, node, {
+								"DAV:prop":function(ns, node) {
+									scanNode(ns, node, {
+										"DAV:getcontentlength":function(ns, node) {
+											size = node.firstChild.nodeValue;
+										},
+										"DAV:getlastmodified":function(ns, node) {
+											time = node.firstChild.nodeValue;
+										},
+										"DAV:getcontenttype":function(ns, node) {
+											type = node.firstChild.nodeValue;
+										},
+										"x":function(ns, node) {
+											x =node.firstChild.nodeValue;
+										},
+										"y":function(ns, node) {
+											y =node.firstChild.nodeValue;
+										},
+										"w":function(ns, node) {
+											w =node.firstChild.nodeValue;
+										},
+										"h":function(ns, node) {
+											h =node.firstChild.nodeValue;
+										}
+									});
+
+								}
+							});
+						}
+					});
+					if (path !== base) {
+						info.push({"path":path, "size":size, "time":time, "type":type});
+					}
+					if (! layout_cache[path]) {
+						layout_cache[path] = {"x":x, "y":y, "w":w, "h":h};
+					}
+				}
+			});
+		}
+	});
 	content_cache[base] = info;
 }
 function display(container) {
