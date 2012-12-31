@@ -25,7 +25,6 @@ gui.folder_container=function(){
 	n5.setAttribute('style','position:absolute; right:5px; cursor:pointer;');
 	var n6=document.createElement('img');
 	n6.setAttribute('src','reload.png');
-	n6.setAttribute('align','center');
 	n6.setAttribute('style','opacity:0.5;');
 	n6.setAttribute('title','Reload');
 	Object.defineProperty(n0,'$reload',{
@@ -34,7 +33,6 @@ gui.folder_container=function(){
 	n5.appendChild(n6);
 	var n7=document.createElement('img');
 	n7.setAttribute('src','close.png');
-	n7.setAttribute('align','center');
 	n7.setAttribute('style','opacity:0.5;');
 	n7.setAttribute('title','Close');
 	Object.defineProperty(n0,'$close',{
@@ -87,7 +85,6 @@ gui.text_container=function(){
 	n5.setAttribute('style','position:absolute; right:5px; cursor:pointer;');
 	var n6=document.createElement('img');
 	n6.setAttribute('src','upload.png');
-	n6.setAttribute('align','center');
 	n6.setAttribute('style','opacity:0.5;');
 	n6.setAttribute('title','Upload');
 	Object.defineProperty(n0,'$upload',{
@@ -96,7 +93,6 @@ gui.text_container=function(){
 	n5.appendChild(n6);
 	var n7=document.createElement('img');
 	n7.setAttribute('src','reload.png');
-	n7.setAttribute('align','center');
 	n7.setAttribute('style','opacity:0.5;');
 	n7.setAttribute('title','Reload');
 	Object.defineProperty(n0,'$reload',{
@@ -105,7 +101,6 @@ gui.text_container=function(){
 	n5.appendChild(n7);
 	var n8=document.createElement('img');
 	n8.setAttribute('src','close.png');
-	n8.setAttribute('align','center');
 	n8.setAttribute('style','opacity:0.5;');
 	n8.setAttribute('title','Close');
 	Object.defineProperty(n0,'$close',{

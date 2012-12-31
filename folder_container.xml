@@ -9,10 +9,10 @@
 			</span>
 		</span>
 		<span style="position:absolute; right:5px; cursor:pointer;">
-			<img src="reload.png" align="center" style="opacity:0.5;" title="Reload">
+			<img src="reload.png" style="opacity:0.5;" title="Reload">
 				<![CDATA[$reload]]>
 			</img>
-			<img src="close.png" align="center" style="opacity:0.5;" title="Close">
+			<img src="close.png" style="opacity:0.5;" title="Close">
 				<![CDATA[$close]]>
 			</img>
 		</span>
