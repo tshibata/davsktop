@@ -68,7 +68,7 @@ function scanNode(ns, node, map) {
 			var nodeName = node.childNodes[i].nodeName;
 			var m = nodeName.match(/^([^:]*):(.*)$/);
 			if (m) {
-				nodeName = ns[m[1]]+m[2];
+				nodeName = ns[m[1]] + " " + m[2];
 			}
 			if (map[nodeName]) {
 				var f = function(){};
@@ -81,9 +81,9 @@ function scanNode(ns, node, map) {
 function parseProp(base, responseXML) {
 	var info = [];
 	scanNode({}, responseXML, {
-		"DAV:multistatus":function(ns, node) {
+		"DAV: multistatus":function(ns, node) {
 			scanNode(ns, node, {
-				"DAV:response":function(ns, node) {
+				"DAV: response":function(ns, node) {
 					var path;
 					var size;
 					var time;
@@ -93,20 +93,20 @@ function parseProp(base, responseXML) {
 					var w = window.innerWidth / 2;
 					var h = window.innerHeight / 2;
 					scanNode(ns, node, {
-						"DAV:href":function(ns, node) {
+						"DAV: href":function(ns, node) {
 							path = node.firstChild.nodeValue;
 						},
-						"DAV:propstat":function(ns, node) {
+						"DAV: propstat":function(ns, node) {
 							scanNode(ns, node, {
-								"DAV:prop":function(ns, node) {
+								"DAV: prop":function(ns, node) {
 									scanNode(ns, node, {
-										"DAV:getcontentlength":function(ns, node) {
+										"DAV: getcontentlength":function(ns, node) {
 											size = node.firstChild.nodeValue;
 										},
-										"DAV:getlastmodified":function(ns, node) {
+										"DAV: getlastmodified":function(ns, node) {
 											time = node.firstChild.nodeValue;
 										},
-										"DAV:getcontenttype":function(ns, node) {
+										"DAV: getcontenttype":function(ns, node) {
 											type = node.firstChild.nodeValue;
 										},
 										"x":function(ns, node) {
