@@ -52,8 +52,8 @@ function initItem(item, parent, path, size, time, type) {
 	}
 	item.addEventListener("dragstart", function(event) {
 		event.dataTransfer.effectAllowed = "copyMove";
-		event.dataTransfer.setData("path", path);
-		event.dataTransfer.setData("downloadurl", type + ":" + name + ":" + host + path);
+		event.dataTransfer.setData("text", "@" + path);
+		//event.dataTransfer.setData("downloadurl", type + ":" + name + ":" + host + path);
 	});
 }
 function scanNode(ns, node, map) {
@@ -339,18 +339,19 @@ function initContainer(container, x, y, w, h) {
 				dav_put_file(host, event.dataTransfer.files[i], dst);
 				focus(container);
 			}
-		} else if (event.dataTransfer.getData("new") === "folder") {
+		} else if (event.dataTransfer.getData("text") === "new folder") {
 			focus(container);
 			nameDialog(false, "new_folder", function(new_name) {
 				dav_mkcol(container.$title, new_name);
 			});
-		} else if (event.dataTransfer.getData("new") === "text") {
+		} else if (event.dataTransfer.getData("text") === "new text") {
 			focus(container);
 			nameDialog(false, "new_file.txt", function(new_name) {
 				dav_put(container.$title + new_name, "");
 			});
 		} else {
-			var path = event.dataTransfer.getData("path"); 
+			var path = event.dataTransfer.getData("text").match(/^@(.*)/)[1];
+			var effect = event.dataTransfer.dropEffect;
 			var name = path.match(/\/([^\/]+\/?)$/)[1];
 			var src = path.substring(0, path.length - name.length);
 			var dst = container.$title;
@@ -363,12 +364,12 @@ function initContainer(container, x, y, w, h) {
 			}
 
 			nameDialog(! set[container.$title + name], name, function(new_name) {
-				switch (event.dataTransfer.dropEffect) {
+				switch (effect) {
 				case "copy":
 					dav_copy(host, src, dst, name, new_name);
 					break;
 				case "move":
-				default: // for chrome
+				default:
 					dav_move(host, src, dst, name, new_name);
 					break;
 				}
@@ -384,14 +385,17 @@ function initContainer(container, x, y, w, h) {
 	focus(container);
 }
 function newFile(type, event) {
-	event.dataTransfer.setData("new", type);
+	event.dataTransfer.setData("text", type);
 	event.dataTransfer.effectAllowed = "copy";
 }
 function remove(event) {
-	var path = event.dataTransfer.getData("path"); 
-	var name = path.match(/\/([^\/]+\/?)$/)[1];
-	var folder = path.substring(0, path.length - name.length);
-	dav_delete(folder, name);
+	var m = event.dataTransfer.getData("text").match(/^@(.*)/);
+	if (m) {
+		var path = m[1];
+		var name = path.match(/\/([^\/]+\/?)$/)[1];
+		var folder = path.substring(0, path.length - name.length);
+		dav_delete(folder, name);
+	}
 	event.preventDefault();
 }
 window.onload = function() {
@@ -412,9 +416,9 @@ window.onload = function() {
 <body>
 <img id="rootfolder" src="rootfolder.png" style="cursor:pointer; opacity:0.5; -moz-user-select:none; visibility:hidden;" draggable="false" ondblclick="openPath('/');" title="Root Folder"/>
 <br/>
-<img src="newfolder.png" style="cursor:move; opacity:0.5;" draggable="true" ondragstart="newFile('folder', event);" title="New Folder"/>
+<img src="newfolder.png" style="cursor:move; opacity:0.5;" draggable="true" ondragstart="newFile('new folder', event);" title="New Folder"/>
 <br/>
-<img src="newtext.png" style="cursor:move; opacity:0.5;" draggable="true" ondragstart="newFile('text', event);" title="New Text File"/>
+<img src="newtext.png" style="cursor:move; opacity:0.5;" draggable="true" ondragstart="newFile('new text', event);" title="New Text File"/>
 <br/>
 <img src="trashbin.png" style="opacity:0.5;" draggable="false" ondragover="event.preventDefault();" ondrop="remove(event);" title="Trash Bin"/>
 <br/>
