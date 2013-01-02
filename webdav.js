@@ -120,7 +120,7 @@ function dav_propfind(path) {
 	};
 	req.send("");
 }
-function dav_proppatch(path, name, value) {
+function dav_proppatch(path, ns, name, value) {
 	var req = new XMLHttpRequest();
 	req.open("PROPPATCH", path, true);
 	req.onreadystatechange = function () {
@@ -130,6 +130,6 @@ function dav_proppatch(path, name, value) {
 			}
 		}
 	};
-	req.send('<?xml version="1.0"?><d:propertyupdate xmlns:d="DAV:"><d:set><d:prop><'+name+'>'+value+'</'+name+'></d:prop></d:set></d:propertyupdate>');
+	req.send('<?xml version="1.0"?><d:propertyupdate xmlns:d="DAV:" xmlns:s="'+ns+'"><d:set><d:prop><s:'+name+'>'+value+'</s:'+name+'></d:prop></d:set></d:propertyupdate>');
 }
 

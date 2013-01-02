@@ -109,16 +109,16 @@ function parseProp(base, responseXML) {
 										"DAV: getcontenttype":function(ns, node) {
 											type = node.firstChild.nodeValue;
 										},
-										"x":function(ns, node) {
+										"http://tshibata.github.com/davsktop/ x":function(ns, node) {
 											x =node.firstChild.nodeValue;
 										},
-										"y":function(ns, node) {
+										"http://tshibata.github.com/davsktop/ y":function(ns, node) {
 											y =node.firstChild.nodeValue;
 										},
-										"w":function(ns, node) {
+										"http://tshibata.github.com/davsktop/ w":function(ns, node) {
 											w =node.firstChild.nodeValue;
 										},
-										"h":function(ns, node) {
+										"http://tshibata.github.com/davsktop/ h":function(ns, node) {
 											h =node.firstChild.nodeValue;
 										}
 									});
@@ -283,8 +283,8 @@ function initContainer(container, x, y, w, h) {
 			window.removeEventListener("mousemove", move);
 			window.removeEventListener("mouseup", up);
 			// save property
-			dav_proppatch(container.$title, "x", x);
-			dav_proppatch(container.$title, "y", y);
+			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "x", x);
+			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "y", y);
 			layout_cache[container.$title] = {"x":x, "y":y, "w":w, "h":h};
 			return false;
 		};
@@ -311,8 +311,8 @@ function initContainer(container, x, y, w, h) {
 			window.removeEventListener("mousemove", move);
 			window.removeEventListener("mouseup", up);
 			// save property
-			dav_proppatch(container.$title, "w", w);
-			dav_proppatch(container.$title, "h", h);
+			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "w", w);
+			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "h", h);
 			layout_cache[container.$title] = {"x":x, "y":y, "w":w, "h":h};
 			return false;
 		};
