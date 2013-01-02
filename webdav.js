@@ -36,14 +36,25 @@ function dav_copy(host, src, dst, name, new_name) {
 	req.send("");
 }
 function dav_get(path) {
+	reloading[path] = reloading[path] ? reloading[path] + 1 : 1;
+	for (var i = 0; i < containers.length; i++) {
+		if (containers[i].$title === path) {
+			containers[i].$reloadIcon = "reload.gif";
+		}
+	}
 	var req = new XMLHttpRequest();
 	req.open("GET", path, true);
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) {
+			reloading[path]--;
 			content_cache[path] = req.responseText;
 			for (var i = 0; i < containers.length; i++) {
 				var container = containers[i];
 				if (container.$title === path) {
+					if (! reloading[path]) {
+						reloading[path] = undefined;
+						containers[i].$reloadIcon = "reload.png";
+					}
 					container.$text = req.responseText;
 				}
 			}
@@ -105,14 +116,25 @@ function dav_mkcol(dst, name) {
 	req.send("");
 }
 function dav_propfind(path) {
+	reloading[path] = reloading[path] ? reloading[path] + 1 : 1;
+	for (var i = 0; i < containers.length; i++) {
+		if (containers[i].$title === path) {
+			containers[i].$reloadIcon = "reload.gif";
+		}
+	}
 	var req = new XMLHttpRequest();
 	req.open("PROPFIND", path, true);
 	req.setRequestHeader("Depth", "1");
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) {
+			reloading[path]--;
 			parseProp(path, req.responseXML);
 			for (var i = 0; i < containers.length; i++) {
 				if (containers[i].$title === path) {
+					if (! reloading[path]) {
+						reloading[path] = undefined;
+						containers[i].$reloadIcon = "reload.png";
+					}
 					display(containers[i]);
 				}
 			}

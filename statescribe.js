@@ -30,6 +30,10 @@ gui.folder_container=function(){
 	Object.defineProperty(n0,'$reload',{
 		get:function(){return n6;}
 	});
+	Object.defineProperty(n0, '$reloadIcon',{
+		set:function(v){n6.src=v;},
+		get:function(){return n6.src;}
+	});
 	n5.appendChild(n6);
 	var n7=document.createElement('img');
 	n7.setAttribute('src','close.png');
@@ -97,6 +101,10 @@ gui.text_container=function(){
 	n7.setAttribute('title','Reload');
 	Object.defineProperty(n0,'$reload',{
 		get:function(){return n7;}
+	});
+	Object.defineProperty(n0, '$reloadIcon',{
+		set:function(v){n7.src=v;},
+		get:function(){return n7.src;}
 	});
 	n5.appendChild(n7);
 	var n8=document.createElement('img');
