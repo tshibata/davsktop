@@ -6,6 +6,9 @@
 // default configuration
 BACKGROUND_IMAGE = undefined;
 TEXT_MIME_PATTERN = /^text\//;
+MONTHS = [
+	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
 </script>
 <script content="text/javascript" src="config.js"></script>
 <script content="text/javascript">
@@ -14,16 +17,13 @@ gui = {};
 <script content="text/javascript" src="statescribe.js"></script>
 <script content="text/javascript" src="webdav.js"></script>
 <script content="text/javascript">
-months = [
-	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-];
 containers = [];
 content_cache = {};
 layout_cache = {};
 reloading = {};
 function formatTime(s) {
 	var time = new Date(s);
-	return months[time.getMonth()] +
+	return MONTHS[time.getMonth()] +
 		" " + time.getDate() + " " +
 		("0" + time.getHours()).slice(- 2) + ":" +
 		("0" + time.getMinutes()).slice(- 2) + ":" +
