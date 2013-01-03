@@ -158,7 +158,7 @@ function display(container) {
 	}
 	container.$content = content;
 }
-function focus(target) {
+function focusContainer(target) {
 	containers.splice(containers.indexOf(target), 1);
 	for (var i = 0; i < containers.length; i++) {
 		containers[i].style.zIndex = i;
@@ -176,7 +176,7 @@ function openPath(path) {
 	var h = layout.h;
 	for (var i = 0; i < containers.length; i++) {
 		if (containers[i].$title === path) {
-			focus(containers[i]);
+			focusContainer(containers[i]);
 			return;
 		}
 	}
@@ -254,7 +254,7 @@ function initContainer(container, path, x, y, w, h) {
 
 	// focus
 	container.addEventListener("mousedown", function(event) {
-		focus(container);
+		focusContainer(container);
 	});
 
 	// close
@@ -336,15 +336,15 @@ function initContainer(container, path, x, y, w, h) {
 			for (var i = 0; i < event.dataTransfer.files.length; i++) {
 				var host = window.location.protocol + "//" + window.location.host;
 				dav_put_file(host, event.dataTransfer.files[i], path);
-				focus(container);
+				focusContainer(container);
 			}
 		} else if (event.dataTransfer.getData("text") === "new folder") {
-			focus(container);
+			focusContainer(container);
 			nameDialog(false, "new_folder", function(new_name) {
 				dav_mkcol(path, new_name);
 			});
 		} else if (event.dataTransfer.getData("text") === "new text") {
-			focus(container);
+			focusContainer(container);
 			nameDialog(false, "new_file.txt", function(new_name) {
 				dav_put(path + new_name, "");
 			});
@@ -372,7 +372,7 @@ function initContainer(container, path, x, y, w, h) {
 					break;
 				}
 			});
-			focus(container);
+			focusContainer(container);
 		}
 		event.preventDefault();
 		return false;
@@ -380,7 +380,7 @@ function initContainer(container, path, x, y, w, h) {
 
 	containers.push(container);
 	base.appendChild(container);
-	focus(container);
+	focusContainer(container);
 }
 function newFile(type, event) {
 	event.dataTransfer.setData("text", type);
