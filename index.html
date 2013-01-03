@@ -182,8 +182,7 @@ function openPath(path) {
 	}
 	if (path.match(/\/$/)) {
 		var container = gui.folder_container();
-		initContainer(container, x, y, w, h);
-		container.$title = path;
+		initContainer(container, path, x, y, w, h);
 		dav_propfind(path);
 		// reload
 		container.$reload.addEventListener("click", function(event) {
@@ -192,7 +191,7 @@ function openPath(path) {
 		});
 	} else {
 		var container = gui.text_container();
-		initContainer(container, x, y, w, h);
+		initContainer(container, path, x, y, w, h);
 		// key down
 		document.addEventListener("keydown", function(event) {
 			if (event.keyCode === 9) { // tab key
@@ -220,7 +219,6 @@ function openPath(path) {
 			dav_get(path);
 			return false;
 		});
-		container.$title = path;
 		dav_get(path);
 	}
 }
@@ -247,10 +245,12 @@ function nameDialog(fixed, arg, func) {
 		dialog.$input.focus();
 	}
 }
-function initContainer(container, x, y, w, h) {
+function initContainer(container, path, x, y, w, h) {
 	var base = document.getElementById("base");
 	var dx;
 	var dy;
+
+	container.$title = path;
 
 	// focus
 	container.addEventListener("mousedown", function(event) {
@@ -261,7 +261,7 @@ function initContainer(container, x, y, w, h) {
 	container.$close.addEventListener("click", function(event) {
 		base.removeChild(container);
 		containers.splice(containers.indexOf(container), 1);
-		content_cache[container.$title] = undefined;
+		content_cache[path] = undefined;
 		// NOTE: layout_cache is kept because PROPPATCH may be not possible.
 		return false;
 	});
@@ -283,9 +283,9 @@ function initContainer(container, x, y, w, h) {
 			window.removeEventListener("mousemove", move);
 			window.removeEventListener("mouseup", up);
 			// save property
-			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "x", x);
-			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "y", y);
-			layout_cache[container.$title] = {"x":x, "y":y, "w":w, "h":h};
+			dav_proppatch(path, "http://tshibata.github.com/davsktop/", "x", x);
+			dav_proppatch(path, "http://tshibata.github.com/davsktop/", "y", y);
+			layout_cache[path] = {"x":x, "y":y, "w":w, "h":h};
 			return false;
 		};
 		window.addEventListener("mousemove", move);
@@ -311,9 +311,9 @@ function initContainer(container, x, y, w, h) {
 			window.removeEventListener("mousemove", move);
 			window.removeEventListener("mouseup", up);
 			// save property
-			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "w", w);
-			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "h", h);
-			layout_cache[container.$title] = {"x":x, "y":y, "w":w, "h":h};
+			dav_proppatch(path, "http://tshibata.github.com/davsktop/", "w", w);
+			dav_proppatch(path, "http://tshibata.github.com/davsktop/", "h", h);
+			layout_cache[path] = {"x":x, "y":y, "w":w, "h":h};
 			return false;
 		};
 		window.addEventListener("mousemove", move);
@@ -335,42 +335,40 @@ function initContainer(container, x, y, w, h) {
 		if (0 < event.dataTransfer.files.length) {
 			for (var i = 0; i < event.dataTransfer.files.length; i++) {
 				var host = window.location.protocol + "//" + window.location.host;
-				var dst = container.$title;
-				dav_put_file(host, event.dataTransfer.files[i], dst);
+				dav_put_file(host, event.dataTransfer.files[i], path);
 				focus(container);
 			}
 		} else if (event.dataTransfer.getData("text") === "new folder") {
 			focus(container);
 			nameDialog(false, "new_folder", function(new_name) {
-				dav_mkcol(container.$title, new_name);
+				dav_mkcol(path, new_name);
 			});
 		} else if (event.dataTransfer.getData("text") === "new text") {
 			focus(container);
 			nameDialog(false, "new_file.txt", function(new_name) {
-				dav_put(container.$title + new_name, "");
+				dav_put(path + new_name, "");
 			});
 		} else {
-			var path = event.dataTransfer.getData("text").match(/^@(.*)/)[1];
+			var data = event.dataTransfer.getData("text").match(/^@(.*)/)[1];
 			var effect = event.dataTransfer.dropEffect;
-			var name = path.match(/\/([^\/]+\/?)$/)[1];
-			var src = path.substring(0, path.length - name.length);
-			var dst = container.$title;
+			var name = data.match(/\/([^\/]+\/?)$/)[1];
+			var src = data.substring(0, data.length - name.length);
 			var host = window.location.protocol + "//" + window.location.host;
 
-			var content = content_cache[dst];
+			var content = content_cache[path];
 			var set = {};
 			for (var i = 0; i < content.length; i++) {
 				set[content[i].path] = true;
 			}
 
-			nameDialog(! set[container.$title + name], name, function(new_name) {
+			nameDialog(! set[path + name], name, function(new_name) {
 				switch (effect) {
 				case "copy":
-					dav_copy(host, src, dst, name, new_name);
+					dav_copy(host, src, path, name, new_name);
 					break;
 				case "move":
 				default:
-					dav_move(host, src, dst, name, new_name);
+					dav_move(host, src, path, name, new_name);
 					break;
 				}
 			});
