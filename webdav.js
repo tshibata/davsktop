@@ -46,13 +46,12 @@ function dav_get(path) {
 	req.open("GET", path, true);
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) {
-			reloading[path]--;
+			reloading[path] = reloading[path] - 1 ? reloading[path] - 1 : undefined;
 			content_cache[path] = req.responseText;
 			for (var i = 0; i < containers.length; i++) {
 				var container = containers[i];
 				if (container.$title === path) {
 					if (! reloading[path]) {
-						reloading[path] = undefined;
 						containers[i].$reloadIcon = "reload.png";
 					}
 					container.$text = req.responseText;
@@ -127,12 +126,11 @@ function dav_propfind(path) {
 	req.setRequestHeader("Depth", "1");
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) {
-			reloading[path]--;
+			reloading[path] = reloading[path] - 1 ? reloading[path] - 1 : undefined;
 			parseProp(path, req.responseXML);
 			for (var i = 0; i < containers.length; i++) {
 				if (containers[i].$title === path) {
 					if (! reloading[path]) {
-						reloading[path] = undefined;
 						containers[i].$reloadIcon = "reload.png";
 					}
 					display(containers[i]);
