@@ -130,7 +130,7 @@ end
 
 $prefix = "" # default value
 opt.on("-p prefix", "--prefix prefix") do |v|
-	$prefix = "#{v}."
+	$prefix = v
 end
 
 opt.parse!(ARGV)
