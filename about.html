@@ -27,6 +27,34 @@ Licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_bla
 <li>You can rename a file by drag-and-dropping it into the same folder. Davsktop asks you new name whenever the destination folder already has a file with the same name.
 <li>Link icon(<img src="link.png"/>) is just a hyper link to file. It allows you anything you can do with your browser, e.g. download the file.
 </ul>
+<h2>Configuration</h2>
+You can configure Davsktop by writing following variables in config.js.
+<table border=1>
+<thead>
+<tr>
+<td>name</td>
+<td>usage</td>
+<td>default value</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BACKGROUND_IMAGE</td>
+<td>background image</td>
+<td>undefined</td>
+</tr>
+<tr>
+<td>MONTHS</td>
+<td>names of months</td>
+<td>["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]</td>
+</tr>
+<tr>
+<td>TEXT_MIME_PATTERN</td>
+<td>pattern for mime type of text file</td>
+<td>/^text\//</td>
+</tr>
+</tbody>
+</table>
 <h2>Known Problems</h2>
 <ul>
 <li>Can't copy on Chrome and IE10.
