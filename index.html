@@ -397,7 +397,7 @@ function remove(event) {
 	event.preventDefault();
 }
 window.onload = function() {
-	document.getElementsByTagName("body")[0].setAttribute("background", BACKGROUND_IMAGE);
+	document.body.setAttribute("background", BACKGROUND_IMAGE);
 	var req = new XMLHttpRequest();
 	req.open("PROPFIND", "/", true);
 	req.setRequestHeader("Depth", "0");
