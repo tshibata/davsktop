@@ -56,7 +56,7 @@ gui.folder_container=function(){
 	n8.appendChild(n9);
 	n0.appendChild(n8);
 	var n10=document.createElement('div');
-	n10.setAttribute('style','position:absolute; width:1em; height:1em; right:0px; bottom:0px; cursor:se-resize;');
+	n10.setAttribute('style','position:absolute; width:1em; height:1em; right:0px; bottom:0px; cursor:se-resize; background-color:white; opacity:0;');
 	Object.defineProperty(n0,'$resize',{
 		get:function(){return n10;}
 	});

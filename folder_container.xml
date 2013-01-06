@@ -23,7 +23,7 @@
 			<![CDATA[$content !]]>
 		</table>
 	</div>
-	<div style="position:absolute; width:1em; height:1em; right:0px; bottom:0px; cursor:se-resize;">
+	<div style="position:absolute; width:1em; height:1em; right:0px; bottom:0px; cursor:se-resize; background-color:white; opacity:0;">
 		<![CDATA[$resize]]>
 	</div>
 </div>
