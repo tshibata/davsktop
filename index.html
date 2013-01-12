@@ -397,6 +397,7 @@ function remove(event) {
 	event.preventDefault();
 }
 window.onload = function() {
+	document.title = "Davsktop (" + window.location.host + ")";
 	document.body.setAttribute("background", BACKGROUND_IMAGE);
 	var req = new XMLHttpRequest();
 	req.open("PROPFIND", "/", true);
