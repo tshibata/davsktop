@@ -1,5 +1,5 @@
 <div>
-	<span><![CDATA[hello]]>hello</span>
-	<span><![CDATA[hello]]>hello</span>
+	<span><!--hello-->hello</span>
+	<span><!--hello-->hello</span>
 </div>
 

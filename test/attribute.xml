@@ -1,7 +1,7 @@
 <div>
 	<a>
-		<![CDATA[href=href]]>
-		<![CDATA[target=target // window to show it]]>
+		<!--href=href-->
+		<!--target=target // window to show it-->
 		link
 	</a>
 </div>

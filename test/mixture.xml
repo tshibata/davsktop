@@ -1,7 +1,7 @@
 <div>
 	<a>
-		<![CDATA[anchor]]>
-		<![CDATA[href=href]]>
+		<!--anchor-->
+		<!--href=href-->
 		link
 	</a>
 </div>
