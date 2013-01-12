@@ -228,7 +228,7 @@ function nameDialog(fixed, arg, func) {
 	} else {
 		var base = document.getElementById("base");
 		var dialog = gui.name();
-		dialog.$zIndex = containers.length;
+		dialog.style.zIndex = containers.length;
 		dialog.$message = "new name";
 		dialog.$text = arg; // default value
 		dialog.$input.addEventListener("keydown", function(event) {
