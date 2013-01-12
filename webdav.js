@@ -89,11 +89,24 @@ function dav_put_file(host, file, dst) {
 	req.send(file);
 }
 function dav_delete(folder, name) {
+	var path = folder + name;
 	var req = new XMLHttpRequest();
-	req.open("DELETE", folder + name, true);
+	req.open("DELETE", path, true);
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) {
 			dav_propfind(folder);
+			var base = document.getElementById("base");
+			var left = []
+			for (var i = 0; i < containers.length; i++) {
+				if (containers[i].$title.substring(0, path.length) === path) {
+					base.removeChild(containers[i]);
+					content_cache[containers[i].$title] = undefined;
+					// NOTE: layout_cache is kept because PROPPATCH may be not possible.
+				} else {
+					left.push(containers[i]);
+				}
+			}
+			containers = left;
 			if (req.status < 200 || 300 <= req.status) {
 				alert(req.responseText.split(/<[^>]*>/).join(" "));
 			}
