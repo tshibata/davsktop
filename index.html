@@ -6,6 +6,7 @@
 // default configuration
 BACKGROUND_IMAGE = undefined;
 TEXT_MIME_PATTERN = /^text\//;
+TEXT_PATH_PATTERN = /\.txt$/;
 MONTHS = [
 	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
@@ -42,7 +43,7 @@ function initItem(item, parent, path, size, time, type) {
 		item.addEventListener("dblclick", function() {
 			openPath(path);
 		});
-	} else if (type.match(TEXT_MIME_PATTERN)) {
+	} else if (type.match(TEXT_MIME_PATTERN) || path.match(TEXT_PATH_PATTERN)) {
 		item.$icon = "text.png";
 		item.addEventListener("dblclick", function() {
 			openPath(path);
