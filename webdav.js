@@ -16,8 +16,12 @@ function dav_move(host, src, dst, name, new_name) {
 					var title = containers[i].$title;
 					if (title.substring(0, path.length) === path) {
 						var newTitle = dst + new_name + title.substring(path.length);
-						content_cache[newTitle] = content_cache[title];
 						containers[i].$title = newTitle;
+						if (newTitle.match(/\/$/)) {
+							dav_propfind(newTitle);
+						} else {
+							content_cache[newTitle] = content_cache[title];
+						}
 					}
 				}
 			} else {
