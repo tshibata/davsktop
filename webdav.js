@@ -10,7 +10,17 @@ function dav_move(host, src, dst, name, new_name) {
 		if (req.readyState == 4) {
 			dav_propfind(src);
 			dav_propfind(dst);
-			if (req.status < 200 || 300 <= req.status) {
+			if (200 <= req.status && req.status < 300) {
+				var path = src + name;
+				for (var i = 0; i < containers.length; i++) {
+					var title = containers[i].$title;
+					if (title.substring(0, path.length) === path) {
+						var newTitle = dst + new_name + title.substring(path.length);
+						content_cache[newTitle] = content_cache[title];
+						containers[i].$title = newTitle;
+					}
+				}
+			} else {
 				alert(req.responseText.split(/<[^>]*>/).join(" "));
 			}
 		}
