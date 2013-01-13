@@ -22,6 +22,8 @@ function dav_move(host, src, dst, name, new_name) {
 						} else {
 							content_cache[newTitle] = content_cache[title];
 						}
+						layout_cache[newTitle] = layout_cache[title];
+						layout_cache[title] = undefined;
 					}
 				}
 			} else {
