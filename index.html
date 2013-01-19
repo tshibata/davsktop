@@ -210,9 +210,7 @@ function openPath(path) {
 		});
 		// upload
 		container.$upload.addEventListener("click", function(event) {
-			if (container.$text !== content_cache[container.$title]) {
-				dav_put(container.$title, container.$text);
-			}
+			dav_put(container.$title, container.$text);
 			return false;
 		});
 		// reload
