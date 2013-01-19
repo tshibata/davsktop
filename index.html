@@ -229,16 +229,17 @@ function nameDialog(fixed, arg, func) {
 		var dialog = gui.name();
 		dialog.style.zIndex = containers.length;
 		dialog.$message = "new name";
-		dialog.$text = arg; // default value
+		var m = arg.match(/([^\/]+)(\/?)/);
+		dialog.$text = m[1];
 		dialog.$input.addEventListener("keydown", function(event) {
 			if (event.keyCode === 13) { // enter key
 				base.removeChild(dialog);
-				func(dialog.$text);
+				func(dialog.$text + m[2]);
 			}
 		});
 		dialog.$ok.addEventListener("click", function() {
 			base.removeChild(dialog);
-			func(dialog.$text);
+			func(dialog.$text + m[2]);
 		});
 		base.appendChild(dialog);
 		dialog.$input.focus();
@@ -339,7 +340,7 @@ function initContainer(container, path, x, y, w, h) {
 			}
 		} else if (event.dataTransfer.getData("text") === "new folder") {
 			focusContainer(container);
-			nameDialog(false, "new_folder", function(new_name) {
+			nameDialog(false, "new_folder/", function(new_name) {
 				dav_mkcol(container.$title, new_name);
 			});
 		} else if (event.dataTransfer.getData("text") === "new text") {
