@@ -283,8 +283,10 @@ function initContainer(container, path, x, y, w, h) {
 			window.removeEventListener("mousemove", move);
 			window.removeEventListener("mouseup", up);
 			// save property
-			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "x", x);
-			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "y", y);
+			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", {
+				"x": x,
+				"y": y
+			});
 			layout_cache[container.$title] = {"x":x, "y":y, "w":w, "h":h};
 			return false;
 		};
@@ -311,8 +313,10 @@ function initContainer(container, path, x, y, w, h) {
 			window.removeEventListener("mousemove", move);
 			window.removeEventListener("mouseup", up);
 			// save property
-			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "w", w);
-			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", "h", h);
+			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", {
+				"w": w,
+				"h": h
+			});
 			layout_cache[container.$title] = {"x":x, "y":y, "w":w, "h":h};
 			return false;
 		};

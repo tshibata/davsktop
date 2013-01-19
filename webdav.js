@@ -169,9 +169,15 @@ function dav_propfind(path) {
 	};
 	req.send("");
 }
-function dav_proppatch(path, ns, name, value) {
+function dav_proppatch(path, ns, map) {
 	var req = new XMLHttpRequest();
 	req.open("PROPPATCH", path, true);
-	req.send('<?xml version="1.0"?><d:propertyupdate xmlns:d="DAV:" xmlns:s="'+ns+'"><d:set><d:prop><s:'+name+'>'+value+'</s:'+name+'></d:prop></d:set></d:propertyupdate>');
+	var patch;
+	patch = '<?xml version="1.0"?><d:propertyupdate xmlns:d="DAV:" xmlns:s="'+ns+'"><d:set><d:prop>';
+	for (name in map) {
+		patch += '<s:' + name + '>' + map[name] + '</s:' + name + '>';
+	}
+	patch += '</d:prop></d:set></d:propertyupdate>';
+	req.send(patch);
 }
 
