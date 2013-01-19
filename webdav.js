@@ -172,13 +172,6 @@ function dav_propfind(path) {
 function dav_proppatch(path, ns, name, value) {
 	var req = new XMLHttpRequest();
 	req.open("PROPPATCH", path, true);
-	req.onreadystatechange = function () {
-		if (req.readyState == 4) {
-			if (req.status < 200 || 300 <= req.status) {
-				alert(req.responseText.split(/<[^>]*>/).join(" "));
-			}
-		}
-	};
 	req.send('<?xml version="1.0"?><d:propertyupdate xmlns:d="DAV:" xmlns:s="'+ns+'"><d:set><d:prop><s:'+name+'>'+value+'</s:'+name+'></d:prop></d:set></d:propertyupdate>');
 }
 
