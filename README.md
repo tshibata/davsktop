@@ -1,4 +1,5 @@
 davsktop
 ========
 
-An Ajax WebDAV client with desktop LnF
+Davsktop = WebDAV + Desktop  
+Just put some files on your WebDAV server. It will make your browser a WebDAV client with desktop LnF.
