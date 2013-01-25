@@ -10,6 +10,7 @@
 		<span style="position:absolute; right:5px; cursor:pointer;">
 			<img src="upload.png" style="opacity:0.5;" title="Upload">
 				<!--$upload-->
+				<!--$uploadIcon=src-->
 			</img>
 			<img src="reload.png" style="opacity:0.5;" title="Reload">
 				<!--$reload-->

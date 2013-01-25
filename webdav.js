@@ -78,10 +78,25 @@ function dav_get(path) {
 	req.send("");
 }
 function dav_put(path, data) {
+	uploading[path] = uploading[path] ? uploading[path] + 1 : 1;
+	for (var i = 0; i < containers.length; i++) {
+		if (containers[i].$title === path) {
+			containers[i].$uploadIcon = "upload.gif";
+		}
+	}
 	var req = new XMLHttpRequest();
 	req.open("PUT", path, true);
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) {
+			uploading[path] = uploading[path] - 1 ? uploading[path] - 1 : undefined;
+			for (var i = 0; i < containers.length; i++) {
+				var container = containers[i];
+				if (container.$title === path) {
+					if (! uploading[path]) {
+						containers[i].$uploadIcon = "upload.png";
+					}
+				}
+			}
 			var name = path.match(/\/([^\/]+\/?)$/)[1];
 			dav_propfind(path.substring(0, path.length - name.length));
 			if (req.status < 200 || 300 <= req.status) {
