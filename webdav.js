@@ -52,7 +52,7 @@ function dav_copy(host, src, dst, name, new_name) {
 	req.send("");
 }
 function dav_get(path) {
-	reloading[path] = reloading[path] ? reloading[path] + 1 : 1;
+	var o = reloading[path] = new Object();;
 	for (var i = 0; i < containers.length; i++) {
 		if (containers[i].$title === path) {
 			containers[i].$reloadIcon = "reload.gif";
@@ -61,16 +61,13 @@ function dav_get(path) {
 	var req = new XMLHttpRequest();
 	req.open("GET", path, true);
 	req.onreadystatechange = function () {
-		if (req.readyState == 4) {
-			reloading[path] = reloading[path] - 1 ? reloading[path] - 1 : undefined;
+		if (req.readyState == 4 && o == reloading[path]) { // care only for the last request
+			reloading[path] = undefined;
 			content_cache[path] = req.responseText;
 			for (var i = 0; i < containers.length; i++) {
-				var container = containers[i];
-				if (container.$title === path) {
-					if (! reloading[path]) {
-						containers[i].$reloadIcon = "reload.png";
-					}
-					container.$text = req.responseText;
+				if (containers[i].$title === path) {
+					containers[i].$reloadIcon = "reload.png";
+					containers[i].$text = req.responseText;
 				}
 			}
 		}
@@ -78,7 +75,7 @@ function dav_get(path) {
 	req.send("");
 }
 function dav_put(path, data) {
-	uploading[path] = uploading[path] ? uploading[path] + 1 : 1;
+	var o = uploading[path] = new Object();
 	for (var i = 0; i < containers.length; i++) {
 		if (containers[i].$title === path) {
 			containers[i].$uploadIcon = "upload.gif";
@@ -87,14 +84,11 @@ function dav_put(path, data) {
 	var req = new XMLHttpRequest();
 	req.open("PUT", path, true);
 	req.onreadystatechange = function () {
-		if (req.readyState == 4) {
-			uploading[path] = uploading[path] - 1 ? uploading[path] - 1 : undefined;
+		if (req.readyState == 4 && o == uploading[path]) { // care only for the last request
+			uploading[path] = undefined;
 			for (var i = 0; i < containers.length; i++) {
-				var container = containers[i];
-				if (container.$title === path) {
-					if (! uploading[path]) {
-						containers[i].$uploadIcon = "upload.png";
-					}
+				if (containers[i].$title === path) {
+					containers[i].$uploadIcon = "upload.png";
 				}
 			}
 			var name = path.match(/\/([^\/]+\/?)$/)[1];
@@ -159,7 +153,7 @@ function dav_mkcol(dst, name) {
 	req.send("");
 }
 function dav_propfind(path) {
-	reloading[path] = reloading[path] ? reloading[path] + 1 : 1;
+	var o = reloading[path] = new Object();
 	for (var i = 0; i < containers.length; i++) {
 		if (containers[i].$title === path) {
 			containers[i].$reloadIcon = "reload.gif";
@@ -169,14 +163,12 @@ function dav_propfind(path) {
 	req.open("PROPFIND", path, true);
 	req.setRequestHeader("Depth", "1");
 	req.onreadystatechange = function () {
-		if (req.readyState == 4) {
-			reloading[path] = reloading[path] - 1 ? reloading[path] - 1 : undefined;
+		if (req.readyState == 4 && o == reloading[path]) { // care only for the last request
+			reloading[path] = undefined;
 			parseProp(path, req.responseXML);
 			for (var i = 0; i < containers.length; i++) {
 				if (containers[i].$title === path) {
-					if (! reloading[path]) {
-						containers[i].$reloadIcon = "reload.png";
-					}
+					containers[i].$reloadIcon = "reload.png";
 					display(containers[i]);
 				}
 			}
