@@ -60,6 +60,7 @@ function dav_get(path) {
 	}
 	var req = new XMLHttpRequest();
 	req.open("GET", path, true);
+	req.setRequestHeader("Cache-Control", "no-cache");
 	req.onreadystatechange = function () {
 		if (req.readyState == 4 && o == reloading[path]) { // care only for the last request
 			reloading[path] = undefined;
