@@ -187,6 +187,7 @@ function openPath(path) {
 		initContainer(container, path, x, y, w, h);
 		dav_propfind(path);
 		// reload
+		buttonEffect(container.$reload);
 		container.$reload.addEventListener("click", function(event) {
 			dav_propfind(container.$title);
 		});
@@ -207,10 +208,12 @@ function openPath(path) {
 			}
 		});
 		// upload
+		buttonEffect(container.$upload);
 		container.$upload.addEventListener("click", function(event) {
 			dav_put(container.$title, container.$text);
 		});
 		// reload
+		buttonEffect(container.$reload);
 		container.$reload.addEventListener("click", function(event) {
 			dav_get(container.$title);
 		});
@@ -241,6 +244,28 @@ function nameDialog(fixed, arg, func) {
 		dialog.$input.focus();
 	}
 }
+function buttonEffect(item) {
+	item.addEventListener("mousedown", function(event) {
+		item.style.opacity = 1.0;
+		var enter = function(event) {
+			item.style.opacity = 1.0;
+		};
+		var leave = function(event) {
+			item.style.opacity = 0.5;
+		};
+		var up = function(event) {
+			item.style.opacity = 0.5;
+			item.removeEventListener("mouseover", enter);
+			item.removeEventListener("mouseout", leave);
+			window.removeEventListener(u2);
+		};
+		item.addEventListener("mouseover", enter);
+		item.addEventListener("mouseout", leave);
+		window.addEventListener("mouseup", up);
+		event.stopPropagation();
+		event.preventDefault();
+	});
+}
 function initContainer(container, path, x, y, w, h) {
 	var base = document.getElementById("base");
 	var dx;
@@ -254,6 +279,7 @@ function initContainer(container, path, x, y, w, h) {
 	});
 
 	// close
+	buttonEffect(container.$close);
 	container.$close.addEventListener("click", function(event) {
 		base.removeChild(container);
 		containers.splice(containers.indexOf(container), 1);
