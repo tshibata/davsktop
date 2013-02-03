@@ -189,7 +189,6 @@ function openPath(path) {
 		// reload
 		container.$reload.addEventListener("click", function(event) {
 			dav_propfind(container.$title);
-			return false;
 		});
 	} else {
 		var container = gui.text_container();
@@ -205,19 +204,15 @@ function openPath(path) {
 				container.$textarea.selectionStart = start + 1;
 				container.$textarea.selectionEnd = start + 1;
 				event.preventDefault();
-				return false;
 			}
-			return true;
 		});
 		// upload
 		container.$upload.addEventListener("click", function(event) {
 			dav_put(container.$title, container.$text);
-			return false;
 		});
 		// reload
 		container.$reload.addEventListener("click", function(event) {
 			dav_get(container.$title);
-			return false;
 		});
 		dav_get(path);
 	}
@@ -264,7 +259,6 @@ function initContainer(container, path, x, y, w, h) {
 		containers.splice(containers.indexOf(container), 1);
 		content_cache[container.$title] = undefined;
 		// NOTE: layout_cache is kept because PROPPATCH may be not possible.
-		return false;
 	});
 
 	// move
@@ -278,7 +272,6 @@ function initContainer(container, path, x, y, w, h) {
 			y = event.pageY - dy;
 			container.style.left = (x < 0 ? 0 : x) + "px";
 			container.style.top = (y < 0 ? 0 : y) + "px";
-			return false;
 		};
 		var up = function() {
 			window.removeEventListener("mousemove", move);
@@ -289,12 +282,10 @@ function initContainer(container, path, x, y, w, h) {
 				"y": y
 			});
 			layout_cache[container.$title] = {"x":x, "y":y, "w":w, "h":h};
-			return false;
 		};
 		window.addEventListener("mousemove", move);
 		window.addEventListener("mouseup", up);
 		event.preventDefault();
-		return false;
 	});
 
 	// resize
@@ -308,7 +299,6 @@ function initContainer(container, path, x, y, w, h) {
 			h = event.pageY - dy;
 			container.style.width = (w < 100 ? 100 : w) + "px";
 			container.style.height = (h < 100 ? 100 : h) + "px";
-			return false;
 		};
 		var up = function() {
 			window.removeEventListener("mousemove", move);
@@ -319,22 +309,18 @@ function initContainer(container, path, x, y, w, h) {
 				"h": h
 			});
 			layout_cache[container.$title] = {"x":x, "y":y, "w":w, "h":h};
-			return false;
 		};
 		window.addEventListener("mousemove", move);
 		window.addEventListener("mouseup", up);
 		event.preventDefault();
-		return false;
 	});
 
 	// drop
 	container.addEventListener("dragover", function(event) {
 		event.preventDefault();
-		return false;
 	});
 	container.addEventListener("dragleave", function(event) {
 		event.preventDefault();
-		return false;
 	});
 	container.addEventListener("drop", function(event) {
 		if (0 < event.dataTransfer.files.length) {
@@ -380,7 +366,6 @@ function initContainer(container, path, x, y, w, h) {
 			focusContainer(container);
 		}
 		event.preventDefault();
-		return false;
 	});
 
 	containers.push(container);
