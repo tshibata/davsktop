@@ -402,7 +402,7 @@ function newFile(type, event) {
 	event.dataTransfer.setData("text", type);
 	event.dataTransfer.effectAllowed = "copy";
 }
-function remove(event) {
+function removeFile(event) {
 	var m = event.dataTransfer.getData("text").match(/^@(.*)/);
 	if (m) {
 		var path = m[1];
@@ -435,7 +435,7 @@ window.onload = function() {
 <br/>
 <img src="newtext.png" style="cursor:move; opacity:0.5;" draggable="true" ondragstart="newFile('new text', event);" title="New Text File"/>
 <br/>
-<img src="trashbin.png" style="opacity:0.5;" ondragover="event.preventDefault();" ondrop="remove(event);" title="Trash Bin"/>
+<img src="trashbin.png" style="opacity:0.5;" ondragover="event.preventDefault();" ondrop="removeFile(event);" title="Trash Bin"/>
 <br/>
 <div id="base"></div>
 <a href="http://tshibata.github.com/davsktop/about.html" target="_blank" style="position:absolute; top:0px; right:0px;">About Davsktop</a>
