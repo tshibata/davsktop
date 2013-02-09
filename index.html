@@ -230,6 +230,9 @@ function nameDialog(fixed, arg, func) {
 		dialog.$message = "new name";
 		var m = arg.match(/([^\/]+)(\/?)/);
 		dialog.$text = m[1];
+		//dialog.$input.setSelectionRange(0, m[1].length); // FireFox fails
+		dialog.$input.selectionStart = 0;
+		dialog.$input.selectionEnd = m[1].length;
 		dialog.$input.addEventListener("keydown", function(event) {
 			if (event.keyCode === 13) { // enter key
 				base.removeChild(dialog);
