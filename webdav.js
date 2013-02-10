@@ -2,6 +2,9 @@ function dav_move(host, src, dst, name, new_name) {
 	if (! new_name) {
 		new_name = name;
 	}
+	if (src + name === dst + new_name) {
+		return; // do nothing.
+	}
 	var req = new XMLHttpRequest();
 	req.open("MOVE", src + name, true);
 	req.setRequestHeader("Destination", host + dst + new_name);
