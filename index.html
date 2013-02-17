@@ -187,14 +187,13 @@ function openPath(path) {
 		initContainer(container, path, x, y, w, h);
 		dav_propfind(path);
 		// reload
-		buttonEffect(container.$reload);
+		buttonEffect(container.$reload, function(){return 0.5;});
 		container.$reload.addEventListener("click", function(event) {
 			dav_propfind(container.$title);
 		});
 	} else {
 		var container = gui.text_container();
 		initContainer(container, path, x, y, w, h);
-		// key down
 		document.addEventListener("keydown", function(event) {
 			if (event.keyCode === 9) { // tab key
 				var start = container.$textarea.selectionStart;
@@ -207,13 +206,27 @@ function openPath(path) {
 				event.preventDefault();
 			}
 		});
+		document.addEventListener("keyup", function(event) {
+			if (container.$upload.style.opacity < 0.7
+			 && container.$text !== content_cache[container.$title]) {
+				// the content is modified
+				container.$upload.style.opacity = 0.7;
+			}
+		});
 		// upload
-		buttonEffect(container.$upload);
+		buttonEffect(container.$upload, function(){
+			if (container.$text === content_cache[container.$title]) {
+				return 0.2;
+			} else {
+				return 0.7;
+			}
+		});
 		container.$upload.addEventListener("click", function(event) {
+			container.$upload.style.opacity = 0.2;
 			dav_put(container.$title, container.$text);
 		});
 		// reload
-		buttonEffect(container.$reload);
+		buttonEffect(container.$reload, function(){return 0.5;});
 		container.$reload.addEventListener("click", function(event) {
 			dav_get(container.$title);
 		});
@@ -247,17 +260,17 @@ function nameDialog(fixed, arg, func) {
 		dialog.$input.focus();
 	}
 }
-function buttonEffect(item) {
+function buttonEffect(item, normal) {
 	item.addEventListener("mousedown", function(event) {
 		item.style.opacity = 1.0;
 		var enter = function(event) {
 			item.style.opacity = 1.0;
 		};
 		var leave = function(event) {
-			item.style.opacity = 0.5;
+			item.style.opacity = normal();
 		};
 		var up = function(event) {
-			item.style.opacity = 0.5;
+			item.style.opacity = normal();
 			item.removeEventListener("mouseover", enter);
 			item.removeEventListener("mouseout", leave);
 			window.removeEventListener(u2);
@@ -282,7 +295,7 @@ function initContainer(container, path, x, y, w, h) {
 	});
 
 	// close
-	buttonEffect(container.$close);
+	buttonEffect(container.$close, function(){return 0.5;});
 	container.$close.addEventListener("click", function(event) {
 		base.removeChild(container);
 		containers.splice(containers.indexOf(container), 1);

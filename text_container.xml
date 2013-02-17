@@ -8,7 +8,7 @@
 			</span>
 		</span>
 		<span style="position:absolute; right:5px; cursor:pointer;">
-			<img src="upload.png" style="opacity:0.5;" title="Upload">
+			<img src="upload.png" style="opacity:0.2;" title="Upload">
 				<!--$upload-->
 				<!--$uploadIcon=src-->
 			</img>

@@ -89,7 +89,7 @@ gui.text_container=function(){
 	n5.setAttribute('style','position:absolute; right:5px; cursor:pointer;');
 	var n6=document.createElement('img');
 	n6.setAttribute('src','upload.png');
-	n6.setAttribute('style','opacity:0.5;');
+	n6.setAttribute('style','opacity:0.2;');
 	n6.setAttribute('title','Upload');
 	Object.defineProperty(n0,'$upload',{
 		get:function(){return n6;}
