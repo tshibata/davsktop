@@ -223,6 +223,7 @@ function openPath(path) {
 		});
 		container.$upload.addEventListener("click", function(event) {
 			container.$upload.style.opacity = 0.2;
+			content_cache[container.$title] = container.$text;
 			dav_put(container.$title, container.$text);
 		});
 		// reload

@@ -70,6 +70,8 @@ function dav_get(path) {
 			content_cache[path] = req.responseText;
 			for (var i = 0; i < containers.length; i++) {
 				if (containers[i].$title === path) {
+					content_cache[path] = req.responseText;
+					containers[i].$upload.style.opacity = 0.2;
 					containers[i].$reloadIcon = "reload.png";
 					containers[i].$text = req.responseText;
 				}
