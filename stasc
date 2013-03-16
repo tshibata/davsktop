@@ -137,7 +137,7 @@ buf = StringIO.new
 buf.puts "/* #{$notice} */" if 0 < $notice.length
 ARGV.each do |src|
 	dir = File.dirname(src)
-	sym = File.basename(src, ".*")
+	sym = File.basename(src, ".ss.xml")
 	doc = XML::Document.file(src)
 	buf.puts "#{$prefix}#{sym}=function(){"
 	walker = Walker.new(doc.root)

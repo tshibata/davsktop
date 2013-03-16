@@ -1,4 +1,4 @@
 
-statescribe.js: folder_container.xml text_container.xml list1.xml item1.xml name.xml
+statescribe.js: folder_container.ss.xml text_container.ss.xml list1.ss.xml item1.ss.xml name.ss.xml
 	./stasc --prefix=gui. $+
 
