@@ -1,10 +1,9 @@
 <html>
 <head>
-<script content="text/javascript" src="statescribe.js"></script>
 </head>
 <body>
 <h2>Generate HTML Element</h2>
-Let's suppose you need to generate a table for translation in a web page.<br/>
+Let's suppose you need to generate a table for translation on a web page.<br/>
 For example, "State" is "Staat" in German. So your table will have a row like following:
 <pre>
 &lt;tr&gt;&lt;td&gt;State&lt;/td&gt;&lt;td&gt;Staat&lt;/td&gt;&lt;/tr&gt;
@@ -22,21 +21,19 @@ row.appendChild(n2);
 </pre>
 Anybody can understand your intention from the code, but it is not intuitive compared to the original tags.<br/>
 Stasc translates such html tags into javascript functions.<br/>
-Save the tags as StateInGerman.xml and run stasc:
-<pre>
-stasc StateInGerman.xml
-</pre>
-then you will have "statescribe.js" which contains function named after the source file.
+Save the tags as StateInGerman.ss.xml and run stasc.
+Then you will have "Stasc.js" which contains function named after the source file.
 You can generate the element like:
 <pre>
 var row=StateInGerman();
 </pre>
 <h2>Generate More Than One HTML Element</h2>
-You can give more than one source file then "statescribe.js" will have more than one function.
-For example:
+You can give stasc more than one source file to let "Stasc.js" have more than one function.
+The source files can be given as parameters, for example:
 <pre>
-stasc StateInGerman.xml ScribeInGerman.xml
+stasc StateInGerman.ss.xml ScribeInGerman.ss.xml
 </pre>
+If no source file is given, it picks "*.ss.xml" in current directory.
 <h2>Refer HTML Element</h2>
 You have to put the row into your table. Of course you can use stasc also to generate the table.
 <pre>
