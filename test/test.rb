@@ -22,8 +22,8 @@ Thread.new do
 	server.start
 end
 
-Dir.glob("*.xml").each do |file|
-	basename = File.basename(file, ".*")
+Dir.glob("*.ss.xml").each do |file|
+	basename = File.basename(file, ".ss.xml")
 	res = `ruby ../stasc #{file} 2>&1`
 	if File.exists?(basename + ".html")
 		abort res if $? != 0
