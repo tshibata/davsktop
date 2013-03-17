@@ -121,7 +121,7 @@ opt.on("-n file", "--notice file") do |v|
 	end
 end
 
-$output = "statescribe.js" # default value
+$output = "Stasc.js" # default value
 opt.on("-o file", "--output file") do |v|
 	$output = v
 end
