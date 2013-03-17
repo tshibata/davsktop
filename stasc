@@ -135,7 +135,7 @@ opt.parse!(ARGV)
 
 buf = StringIO.new
 buf.puts "/* #{$notice} */" if 0 < $notice.length
-ARGV.each do |src|
+(ARGV.empty? ? Dir.glob("*.ss.xml").sort : ARGV).each do |src|
 	dir = File.dirname(src)
 	sym = File.basename(src, ".ss.xml")
 	doc = XML::Document.file(src)
