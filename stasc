@@ -6,6 +6,7 @@ require "xml/libxml"
 $direct = /^\s*([\$_[:alpha:]][\$_[:alnum:]]*)\s*(?:\/\/(.*))?$/
 $indirect = /^\s*([\$_[:alpha:]][\$_[:alnum:]]*)\s*=\s*([\.\$\_[:alnum:]]+)\s*(?:\/\/(.*))?$/
 $destructive = /^\s*([\$_[:alpha:]][\$_[:alnum:]]*)\s*\!\s*(?:\/\/(.*))?$/
+$comment = /^\s*\/\/.*/
 
 # tags to be empty
 $empty_tags = [
@@ -81,6 +82,10 @@ class Walker
 						@proc.puts "\t\tget:function(){return #{var};}"
 						@proc.puts "\t});"
 						destructive = true
+					elsif $comment.match(child.content)
+						# nothing to do.
+					else
+						raise "Syntax error in #{node.line_num}"
 					end
 				else
 					jsdom = walk(var, child, provisional || destructive)
