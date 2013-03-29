@@ -45,10 +45,11 @@ class Walker
 			placeholder = false
 			node.each do |child|
 				if child.cdata? || child.comment?
-					if in_placeholder
+					if $comment.match(child.content)
+						# nothing to do.
+					elsif in_placeholder
 						raise "Error: You can't refer element in a placeholder (line #{node.line_num})"
-					end
-					if $element.match(child.content)
+					elsif $element.match(child.content)
 						if @map.include?($1)
 							raise "Error: #{$1} is defined twice"
 						end
@@ -78,8 +79,6 @@ class Walker
 						@proc.puts "\t\tget:function(){return #{var};}"
 						@proc.puts "\t});"
 						placeholder = true
-					elsif $comment.match(child.content)
-						# nothing to do.
 					else
 						raise "Syntax error in #{node.line_num}"
 					end
