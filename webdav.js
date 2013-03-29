@@ -74,6 +74,9 @@ function dav_get(path) {
 					containers[i].$upload.style.opacity = 0.2;
 					containers[i].$reloadIcon = "reload.png";
 					containers[i].$text = req.responseText;
+					containers[i].$textarea.focus();
+					containers[i].$textarea.selectionStart = 0;
+					containers[i].$textarea.selectionEnd = 0;
 				}
 			}
 		}
