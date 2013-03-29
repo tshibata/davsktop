@@ -42,13 +42,9 @@ class Walker
 			node.attributes.each do |attribute|
 				@proc.puts "\t#{var}.setAttribute('#{attribute.name}','#{attribute.value}');"
 			end
+			destructive = false
 			node.each do |child|
-				prologue = true
-				destructive = false
 				if child.cdata? || child.comment?
-					if not prologue
-						raise "Define conjunction before elements (line #{node.line_num})"
-					end
 					if provisional
 						raise "Error: You can't refer provisional element (line #{node.line_num})"
 					end
@@ -87,13 +83,15 @@ class Walker
 					else
 						raise "Syntax error in #{node.line_num}"
 					end
-				else
+				end
+			end
+			node.each do |child|
+				if not (child.cdata? || child.comment?)
 					jsdom = walk(var, child, provisional || destructive)
 					if jsdom
 						if $empty_tags.include?(node.name.downcase)
 							puts "Warning: #{node.name} should be empty (line #{node.line_num})"
 						end
-						prologue = false
 						@proc.puts "\t#{var}.appendChild(#{jsdom});"
 					end
 				end
