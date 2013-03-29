@@ -44,7 +44,7 @@ class Walker
 			end
 			placeholder = false
 			node.each do |child|
-				if child.cdata? || child.comment?
+				if child.comment?
 					if $comment.match(child.content)
 						# nothing to do.
 					elsif in_placeholder
