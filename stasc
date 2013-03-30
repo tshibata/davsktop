@@ -3,6 +3,8 @@ require "optparse"
 require "stringio"
 require "xml/libxml"
 
+XML.default_line_numbers=true
+
 $element = /^\s*([\$_[:alpha:]][\$_[:alnum:]]*)\s*(?:\/\/(.*))?$/
 $attribute = /^\s*([\$_[:alpha:]][\$_[:alnum:]]*)\s*=\s*([\.\$\_[:alnum:]]+)\s*(?:\/\/(.*))?$/
 $placeholder = /^\s*([\$_[:alpha:]][\$_[:alnum:]]*)\s*\!\s*(?:\/\/(.*))?$/
