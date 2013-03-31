@@ -239,9 +239,8 @@ function nameDialog(fixed, arg, func) {
 		func(arg);
 	} else {
 		var base = document.getElementById("base");
-		var dialog = gui.name();
+		var dialog = gui.name("new name");
 		dialog.style.zIndex = containers.length;
-		dialog.$message = "new name";
 		var m = arg.match(/([^\/]+)(\/?)/);
 		dialog.$text = m[1];
 		//dialog.$input.setSelectionRange(0, m[1].length); // FireFox fails
