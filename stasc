@@ -41,7 +41,12 @@ class Walker
 		when LibXML::XML::Node::ELEMENT_NODE
 			var = "n#{@last_var}"
 			@last_var = @last_var + 1
-			@proc.puts "\tvar #{var}=document.createElement('#{node.name}');"
+			ns = node.namespaces.namespace
+			if ns
+				@proc.puts "\tvar #{var}=document.createElementNS('#{ns}','#{node.name}');"
+			else
+				@proc.puts "\tvar #{var}=document.createElement('#{node.name}');"
+			end
 			node.attributes.each do |attribute|
 				@proc.puts "\t#{var}.setAttribute('#{attribute.name}','#{attribute.value}');"
 			end
