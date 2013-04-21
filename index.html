@@ -111,16 +111,16 @@ function parseProp(base, responseXML) {
 										"DAV: getcontenttype":function(ns, node) {
 											type = node.firstChild.nodeValue;
 										},
-										"http://tshibata.github.com/davsktop/ x":function(ns, node) {
+										"http://tshibata.github.io/2013/davsktop x":function(ns, node) {
 											x =node.firstChild.nodeValue;
 										},
-										"http://tshibata.github.com/davsktop/ y":function(ns, node) {
+										"http://tshibata.github.io/2013/davsktop y":function(ns, node) {
 											y =node.firstChild.nodeValue;
 										},
-										"http://tshibata.github.com/davsktop/ w":function(ns, node) {
+										"http://tshibata.github.io/2013/davsktop w":function(ns, node) {
 											w =node.firstChild.nodeValue;
 										},
-										"http://tshibata.github.com/davsktop/ h":function(ns, node) {
+										"http://tshibata.github.io/2013/davsktop h":function(ns, node) {
 											h =node.firstChild.nodeValue;
 										}
 									});
@@ -319,7 +319,7 @@ function initContainer(container, path, x, y, w, h) {
 			window.removeEventListener("mousemove", move);
 			window.removeEventListener("mouseup", up);
 			// save property
-			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", {
+			dav_proppatch(container.$title, "http://tshibata.github.io/2013/davsktop", {
 				"x": x,
 				"y": y
 			});
@@ -346,7 +346,7 @@ function initContainer(container, path, x, y, w, h) {
 			window.removeEventListener("mousemove", move);
 			window.removeEventListener("mouseup", up);
 			// save property
-			dav_proppatch(container.$title, "http://tshibata.github.com/davsktop/", {
+			dav_proppatch(container.$title, "http://tshibata.github.io/2013/davsktop", {
 				"w": w,
 				"h": h
 			});
@@ -454,7 +454,7 @@ window.onload = function() {
 <img src="trashbin.png" style="opacity:0.5;" ondragover="event.preventDefault();" ondrop="removeFile(event);" title="Trash Bin"/>
 <br/>
 <div id="base"></div>
-<a href="http://tshibata.github.com/davsktop/about.html" target="_blank" style="position:absolute; top:0px; right:0px;">About Davsktop</a>
+<a href="http://tshibata.github.io/davsktop/about.html" target="_blank" style="position:absolute; top:0px; right:0px;">About Davsktop</a>
 </body>
 </html>
 
