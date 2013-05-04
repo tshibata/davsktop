@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<div>
-	<div class="title-bar"><!--$drag-->
+<div xmlns:ss="http://tshibata.github.io/2013/stasc">
+	<div class="title-bar">
+		<ss:bond name="$drag"/>
 		<span style="position:absolute; left:5px; cursor:move;">
 			<img src="text.png" align="left" style="opacity:0.5;"/>
 			<span style="color:white; font-weight:bold;">
-				<!--$title=textContent-->
+				<ss:property name="$title" target="textContent"/>
 			</span>
 		</span>
 		<span style="position:absolute; right:5px; cursor:pointer;">
 			<img src="upload.png" style="opacity:0.2;" title="Upload">
-				<!--$upload-->
-				<!--$uploadIcon=src-->
+				<ss:bond name="$upload"/>
+				<ss:property name="$uploadIcon" target="src"/>
 			</img>
 			<img src="reload.png" style="opacity:0.5;" title="Reload">
-				<!--$reload-->
-				<!--$reloadIcon=src-->
+				<ss:bond name="$reload"/>
+				<ss:property name="$reloadIcon" target="src"/>
 			</img>
 			<img src="close.png" style="opacity:0.5;" title="Close">
-				<!--$close-->
+				<ss:bond name="$close"/>
 			</img>
 		</span>
 	</div>
 	<div style="margin:0px; padding:0px; border:solid 1px; position:absolute; left:0px; right:0px; top:35px; bottom:0px;">
 		<textarea style="margin:0px; padding:0px; border:0px; width:100%; height:100%; resize:none;">
-			<!--$textarea-->
-			<!--$text=value-->
+			<ss:bond name="$textarea"/>
+			<ss:property name="$text" target="value"/>
 		</textarea>
 	</div>
 	<div style="position:absolute; width:1em; height:1em; right:0px; bottom:0px; cursor:se-resize;">
-		<!--$resize-->
+		<ss:bond name="$resize"/>
 	</div>
 </div>
 

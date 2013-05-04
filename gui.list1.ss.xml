@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<table style="width:100%; border-spacing:0px; empty-cells:show;">
+<table xmlns:ss="http://tshibata.github.io/2013/stasc" style="width:100%; border-spacing:0px; empty-cells:show;">
 	<tbody>
-		<!--$items-->
+		<ss:bond name="$items"/>
 	</tbody>
 </table>
 

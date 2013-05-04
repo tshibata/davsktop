@@ -1,7 +1,7 @@
-<div>
+<div xmlns:ss="http://tshibata.github.io/2013/stasc">
 	<a>
-		<!--href=href-->
-		<!--target=target // window to show it-->
+		<ss:property name="href" target="href"/>
+		<ss:property name="target" target="target"/>
 		link
 	</a>
 </div>

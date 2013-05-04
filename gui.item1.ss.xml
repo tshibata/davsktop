@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tr>
+<tr xmlns:ss="http://tshibata.github.io/2013/stasc">
 	<td style="border-bottom:1px solid lightgray; padding:0px; margin:0px;">
 		<span draggable="true" style="cursor:pointer;">
 			<img align="left" draggable="false" style="opacity:0.5;">
-				<!--$icon=src-->
+				<ss:property name="$icon" target="src"/>
 			</img>
 			<span>
-				<!--$name=textContent-->
+				<ss:property name="$name" target="textContent"/>
 			</span>
 		</span>
 		<a target="_blank" draggable="false">
-			<!--$url=href-->
+			<ss:property name="$url" target="href"/>
 			<img align="top" src="link.png" draggable="false" style="opacity:0.5;"/>
 		</a>
 	</td>
 	<td align="center" style="border-bottom:1px solid lightgray; padding:0px; margin:0px;">
-		<!--$time=textContent-->
+		<ss:property name="$time" target="textContent"/>
 	</td>
 	<td align="right" style="border-bottom:1px solid lightgray; padding:0px; margin:0px;">
-		<!--$size=textContent-->
+		<ss:property name="$size" target="textContent"/>
 	</td>
 </tr>
 
