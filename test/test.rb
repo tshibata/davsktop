@@ -22,18 +22,26 @@ Thread.new do
 	server.start
 end
 
-Dir.glob("*.ss.xml").each do |file|
-	basename = File.basename(file, ".ss.xml")
-	res = `ruby ../stasc #{file} 2>&1`
-	if File.exists?(basename + ".html")
-		abort res if $? != 0
+Dir.glob("*_test").each do |dir|
+	res = `cd #{dir}; ../../stasc 2>&1`
+	if File.exists?("#{dir}/index.html")
+		if $? != 0
+			puts "FAIL: #{dir} #{res}"
+			break
+		end
 		$error = false
-		`chromium-browser --temp-profile http://localhost:#{$port}/#{basename}.html`
-		abort $error if $error
+		`chromium-browser --temp-profile http://localhost:#{$port}/#{dir}/index.html`
+		if $error
+			puts "FAIL: #{dir} #{error}"
+			break
+		end
 	else
-		abort if $? == 0
+		if $? == 0
+			puts "FAIL: #{dir} #{res}"
+			break
+		end
 	end
-	print "PASS: #{basename}\n"
+	print "PASS: #{dir}\n"
 end
 
 server.shutdown
