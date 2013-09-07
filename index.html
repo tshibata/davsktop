@@ -38,12 +38,12 @@ function initItem(item, parent, path, size, time, type) {
 	// when a directory has index.html, apache says the type is text/html
 	if (path.match(/\/$/)) {
 		item.$icon = "folder.png";
-		item.addEventListener("dblclick", function() {
+		item.addEventListener("click", function() {
 			openPath(path);
 		});
 	} else if (type.match(TEXT_MIME_PATTERN) || path.match(TEXT_PATH_PATTERN)) {
 		item.$icon = "text.png";
-		item.addEventListener("dblclick", function() {
+		item.addEventListener("click", function() {
 			openPath(path);
 		});
 	} else {
@@ -442,7 +442,7 @@ window.onload = function() {
 </script>
 </head>
 <body style="background-size:cover;">
-<img id="rootfolder" src="rootfolder.png" style="cursor:pointer; opacity:0.5; visibility:hidden;" ondblclick="openPath('/');" title="Root Folder"/>
+<img id="rootfolder" src="rootfolder.png" style="cursor:pointer; opacity:0.5; visibility:hidden;" onclick="openPath('/');" title="Root Folder"/>
 <br/>
 <img src="newfolder.png" style="cursor:move; opacity:0.5;" draggable="true" ondragstart="newFile('new folder', event);" title="New Folder"/>
 <br/>
