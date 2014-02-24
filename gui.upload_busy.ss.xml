@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<g xmlns="http://www.w3.org/2000/svg" transform="translate(0 -12)">
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="0 -24" dur="1s" repeatCount="indefinite"/>
+	<polygon points="4,20 12,6 20,20" stroke="black" stroke-width="5" fill="none"/>
+	<polygon points="4,44 12,30 20,44" stroke="black" stroke-width="5" fill="none"/>
+</g>
+

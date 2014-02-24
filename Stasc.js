@@ -284,78 +284,122 @@ gui.text_container=function(){
 	n1.appendChild(n2);
 	var n5=document.createElement('span');
 	n5.setAttribute('style','position:absolute; right:5px; cursor:pointer;');
-	var n6=document.createElement('img');
-	n6.setAttribute('src','upload.png');
-	n6.setAttribute('style','opacity:0.2;');
+	var n6=document.createElementNS('http://www.w3.org/2000/svg','svg');
+	n6.setAttribute('width','24');
+	n6.setAttribute('height','24');
+	n6.setAttribute('style','opacity:0.5;');
 	n6.setAttribute('title','Upload');
+	var n7=document.createElementNS('http://www.w3.org/2000/svg','g');
+	Object.defineProperty(n0,'$uploadIcon',{
+		set:function(v){n6.replaceChild(v,n7);n7=v;},
+		get:function(){return n7;}
+	});
+	n6.appendChild(n7);
 	Object.defineProperty(n0,'$upload',{
 		get:function(){return n6;}
 	});
-	Object.defineProperty(n0, '$uploadIcon',{
-		set:function(v){n6.src=v;},
-		get:function(){return n6.src;}
-	});
 	n5.appendChild(n6);
-	var n7=document.createElementNS('http://www.w3.org/2000/svg','svg');
-	n7.setAttribute('width','24');
-	n7.setAttribute('height','24');
-	n7.setAttribute('style','opacity:0.5;');
-	n7.setAttribute('title','Reload');
-	var n8=document.createElementNS('http://www.w3.org/2000/svg','g');
+	var n8=document.createElementNS('http://www.w3.org/2000/svg','svg');
+	n8.setAttribute('width','24');
+	n8.setAttribute('height','24');
+	n8.setAttribute('style','opacity:0.5;');
+	n8.setAttribute('title','Reload');
+	var n9=document.createElementNS('http://www.w3.org/2000/svg','g');
 	Object.defineProperty(n0,'$reloadIcon',{
-		set:function(v){n7.replaceChild(v,n8);n8=v;},
+		set:function(v){n8.replaceChild(v,n9);n9=v;},
+		get:function(){return n9;}
+	});
+	n8.appendChild(n9);
+	Object.defineProperty(n0,'$reload',{
 		get:function(){return n8;}
 	});
-	n7.appendChild(n8);
-	Object.defineProperty(n0,'$reload',{
-		get:function(){return n7;}
-	});
-	n5.appendChild(n7);
-	var n9=document.createElementNS('http://www.w3.org/2000/svg','svg');
-	n9.setAttribute('width','24');
-	n9.setAttribute('height','24');
-	n9.setAttribute('style','opacity:0.5;');
-	n9.setAttribute('title','Close');
-	var n10=document.createElementNS('http://www.w3.org/2000/svg','line');
-	n10.setAttribute('x1','4');
-	n10.setAttribute('y1','4');
-	n10.setAttribute('x2','20');
-	n10.setAttribute('y2','20');
-	n10.setAttribute('stroke','black');
-	n10.setAttribute('stroke-width','5');
-	n9.appendChild(n10);
+	n5.appendChild(n8);
+	var n10=document.createElementNS('http://www.w3.org/2000/svg','svg');
+	n10.setAttribute('width','24');
+	n10.setAttribute('height','24');
+	n10.setAttribute('style','opacity:0.5;');
+	n10.setAttribute('title','Close');
 	var n11=document.createElementNS('http://www.w3.org/2000/svg','line');
-	n11.setAttribute('x1','20');
+	n11.setAttribute('x1','4');
 	n11.setAttribute('y1','4');
-	n11.setAttribute('x2','4');
+	n11.setAttribute('x2','20');
 	n11.setAttribute('y2','20');
 	n11.setAttribute('stroke','black');
 	n11.setAttribute('stroke-width','5');
-	n9.appendChild(n11);
+	n10.appendChild(n11);
+	var n12=document.createElementNS('http://www.w3.org/2000/svg','line');
+	n12.setAttribute('x1','20');
+	n12.setAttribute('y1','4');
+	n12.setAttribute('x2','4');
+	n12.setAttribute('y2','20');
+	n12.setAttribute('stroke','black');
+	n12.setAttribute('stroke-width','5');
+	n10.appendChild(n12);
 	Object.defineProperty(n0,'$close',{
-		get:function(){return n9;}
+		get:function(){return n10;}
 	});
-	n5.appendChild(n9);
+	n5.appendChild(n10);
 	n1.appendChild(n5);
 	n0.appendChild(n1);
-	var n12=document.createElement('div');
-	n12.setAttribute('style','margin:0px; padding:0px; border:solid 1px; position:absolute; left:0px; right:0px; top:35px; bottom:0px;');
-	var n13=document.createElement('textarea');
-	n13.setAttribute('style','margin:0px; padding:0px; border:0px; width:100%; height:100%; resize:none;');
+	var n13=document.createElement('div');
+	n13.setAttribute('style','margin:0px; padding:0px; border:solid 1px; position:absolute; left:0px; right:0px; top:35px; bottom:0px;');
+	var n14=document.createElement('textarea');
+	n14.setAttribute('style','margin:0px; padding:0px; border:0px; width:100%; height:100%; resize:none;');
 	Object.defineProperty(n0,'$textarea',{
-		get:function(){return n13;}
-	});
-	Object.defineProperty(n0, '$text',{
-		set:function(v){n13.value=v;},
-		get:function(){return n13.value;}
-	});
-	n12.appendChild(n13);
-	n0.appendChild(n12);
-	var n14=document.createElement('div');
-	n14.setAttribute('style','position:absolute; width:1em; height:1em; right:0px; bottom:0px; cursor:se-resize;');
-	Object.defineProperty(n0,'$resize',{
 		get:function(){return n14;}
 	});
-	n0.appendChild(n14);
+	Object.defineProperty(n0, '$text',{
+		set:function(v){n14.value=v;},
+		get:function(){return n14.value;}
+	});
+	n13.appendChild(n14);
+	n0.appendChild(n13);
+	var n15=document.createElement('div');
+	n15.setAttribute('style','position:absolute; width:1em; height:1em; right:0px; bottom:0px; cursor:se-resize;');
+	Object.defineProperty(n0,'$resize',{
+		get:function(){return n15;}
+	});
+	n0.appendChild(n15);
+	return n0;
+};
+gui.upload_busy=function(){
+	var n0=document.createElementNS('http://www.w3.org/2000/svg','g');
+	n0.setAttribute('transform','translate(0 -12)');
+	var n1=document.createElementNS('http://www.w3.org/2000/svg','animateTransform');
+	n1.setAttribute('attributeName','transform');
+	n1.setAttribute('type','translate');
+	n1.setAttribute('from','0 0');
+	n1.setAttribute('to','0 -24');
+	n1.setAttribute('dur','1s');
+	n1.setAttribute('repeatCount','indefinite');
+	n0.appendChild(n1);
+	var n2=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+	n2.setAttribute('points','4,20 12,6 20,20');
+	n2.setAttribute('stroke','black');
+	n2.setAttribute('stroke-width','5');
+	n2.setAttribute('fill','none');
+	n0.appendChild(n2);
+	var n3=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+	n3.setAttribute('points','4,44 12,30 20,44');
+	n3.setAttribute('stroke','black');
+	n3.setAttribute('stroke-width','5');
+	n3.setAttribute('fill','none');
+	n0.appendChild(n3);
+	return n0;
+};
+gui.upload_ready=function(){
+	var n0=document.createElementNS('http://www.w3.org/2000/svg','g');
+	var n1=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+	n1.setAttribute('points','4,20 12,6 20,20');
+	n1.setAttribute('stroke','black');
+	n1.setAttribute('stroke-width','5');
+	n1.setAttribute('fill','none');
+	n0.appendChild(n1);
+	var n2=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+	n2.setAttribute('points','4,44 12,30 20,44');
+	n2.setAttribute('stroke','black');
+	n2.setAttribute('stroke-width','5');
+	n2.setAttribute('fill','none');
+	n0.appendChild(n2);
 	return n0;
 };

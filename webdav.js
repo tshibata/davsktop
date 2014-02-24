@@ -87,7 +87,7 @@ function dav_put(path, data) {
 	var o = uploading[path] = new Object();
 	for (var i = 0; i < containers.length; i++) {
 		if (containers[i].$title === path) {
-			containers[i].$uploadIcon = "upload.gif";
+			containers[i].$uploadIcon = containers[i].$upload_busy;
 		}
 	}
 	var req = new XMLHttpRequest();
@@ -97,7 +97,7 @@ function dav_put(path, data) {
 			uploading[path] = undefined;
 			for (var i = 0; i < containers.length; i++) {
 				if (containers[i].$title === path) {
-					containers[i].$uploadIcon = "upload.png";
+					containers[i].$uploadIcon = containers[i].$upload_ready;
 				}
 			}
 			var name = path.match(/\/([^\/]+\/?)$/)[1];

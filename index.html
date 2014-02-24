@@ -192,6 +192,8 @@ function openPath(path) {
 		});
 	} else {
 		var container = gui.text_container();
+		container.$uploadIcon = container.$upload_ready = gui.upload_ready();
+		container.$upload_busy = gui.upload_busy();
 		container.$reloadIcon = container.$reload_ready = gui.reload_ready();
 		container.$reload_busy = gui.reload_busy();
 		initContainer(container, path, x, y, w, h);

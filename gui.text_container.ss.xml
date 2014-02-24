@@ -9,10 +9,12 @@
 			</span>
 		</span>
 		<span style="position:absolute; right:5px; cursor:pointer;">
-			<img src="upload.png" style="opacity:0.2;" title="Upload">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="opacity:0.5;" title="Upload">
+				<ss:plug name="$uploadIcon">
+					<g></g>
+				</ss:plug>
 				<ss:bond name="$upload"/>
-				<ss:property name="$uploadIcon" target="src"/>
-			</img>
+			</svg>
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="opacity:0.5;" title="Reload">
 				<ss:plug name="$reloadIcon">
 					<g></g>
