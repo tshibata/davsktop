@@ -181,6 +181,8 @@ function openPath(path) {
 	}
 	if (path.match(/\/$/)) {
 		var container = gui.folder_container();
+		container.$reloadIcon = container.$reload_ready = gui.reload_ready();
+		container.$reload_busy = gui.reload_busy();
 		initContainer(container, path, x, y, w, h);
 		dav_propfind(path);
 		// reload
@@ -190,6 +192,8 @@ function openPath(path) {
 		});
 	} else {
 		var container = gui.text_container();
+		container.$reloadIcon = container.$reload_ready = gui.reload_ready();
+		container.$reload_busy = gui.reload_busy();
 		initContainer(container, path, x, y, w, h);
 		document.addEventListener("keydown", function(event) {
 			if (event.keyCode === 9) { // tab key

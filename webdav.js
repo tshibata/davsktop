@@ -58,7 +58,7 @@ function dav_get(path) {
 	var o = reloading[path] = new Object();;
 	for (var i = 0; i < containers.length; i++) {
 		if (containers[i].$title === path) {
-			containers[i].$reloadIcon = "reload.gif";
+			containers[i].$reloadIcon = containers[i].$reload_busy;
 		}
 	}
 	var req = new XMLHttpRequest();
@@ -72,7 +72,7 @@ function dav_get(path) {
 				if (containers[i].$title === path) {
 					content_cache[path] = req.responseText;
 					containers[i].$upload.style.opacity = 0.2;
-					containers[i].$reloadIcon = "reload.png";
+					containers[i].$reloadIcon = containers[i].$reload_ready;
 					containers[i].$text = req.responseText;
 					containers[i].$textarea.focus();
 					containers[i].$textarea.selectionStart = 0;
@@ -165,7 +165,7 @@ function dav_propfind(path) {
 	var o = reloading[path] = new Object();
 	for (var i = 0; i < containers.length; i++) {
 		if (containers[i].$title === path) {
-			containers[i].$reloadIcon = "reload.gif";
+			containers[i].$reloadIcon = containers[i].$reload_busy;
 		}
 	}
 	var req = new XMLHttpRequest();
@@ -177,7 +177,7 @@ function dav_propfind(path) {
 			parseProp(path, req.responseXML);
 			for (var i = 0; i < containers.length; i++) {
 				if (containers[i].$title === path) {
-					containers[i].$reloadIcon = "reload.png";
+					containers[i].$reloadIcon = containers[i].$reload_ready;
 					display(containers[i]);
 				}
 			}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<g xmlns="http://www.w3.org/2000/svg">
+	<path d="M 12 20 A 8 8 0 0 1 6.343 6.343" stroke="black" stroke-width="5" fill="none"/>
+	<polyline points="3,3 10,10 10,3" stroke="none" fill="black"/>
+	<path d="M 12 4 A 8 8 0 0 1 17.657 17.657" stroke="black" stroke-width="5" fill="none"/>
+	<polyline points="21,21 14,14 14,21" stroke="none" fill="black"/>
+</g>
+
