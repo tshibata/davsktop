@@ -92,6 +92,9 @@ gui.item1=function(){
 	var n2=document.createElement('span');
 	n2.setAttribute('draggable','true');
 	n2.setAttribute('style','cursor:pointer;');
+	Object.defineProperty(n0,'$body',{
+		get:function(){return n2;}
+	});
 	var n3=document.createElement('img');
 	n3.setAttribute('align','left');
 	n3.setAttribute('draggable','false');

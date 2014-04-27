@@ -2,6 +2,7 @@
 <tr xmlns:ss="http://tshibata.github.io/2013/stasc">
 	<td style="border-bottom:1px solid lightgray; padding:0px; margin:0px;">
 		<span draggable="true" style="cursor:pointer;">
+			<ss:bond name="$body"/>
 			<img align="left" draggable="false" style="opacity:0.5;">
 				<ss:property name="$icon" target="src"/>
 			</img>
