@@ -163,7 +163,7 @@ gui.name=function(){
 	var n2=document.createElement('div');
 	n2.setAttribute('style','position:absolute; left:0; right:0; top:0; bottom:0;');
 	var n3=document.createElement('div');
-	n3.setAttribute('style','margin-top:30%; margin-left:auto; margin-right:auto; padding: 5px; width:300px; background-color:white; border:1px solid; border-radius: 5px;');
+	n3.setAttribute('style','margin-top:10em; margin-left:auto; margin-right:auto; padding: 5px; width:300px; background-color:white; border:1px solid; border-radius: 5px;');
 	var n4=document.createElement('img');
 	n4.setAttribute('src','folder.png');
 	n4.setAttribute('align','center');
