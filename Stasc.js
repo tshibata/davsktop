@@ -158,7 +158,7 @@ gui.name=function(){
 	var n0=document.createElement('div');
 	n0.setAttribute('style','position:absolute; left:0; right:0; top:0; bottom:0;');
 	var n1=document.createElement('div');
-	n1.setAttribute('style','position:absolute; left:0; right:0; top:0; bottom:0; background-color:gray; opacity:0.5;');
+	n1.setAttribute('style','position:fixed; left:0; right:0; top:0; bottom:0; background-color:gray; opacity:0.5;');
 	n0.appendChild(n1);
 	var n2=document.createElement('div');
 	n2.setAttribute('style','position:absolute; left:0; right:0; top:0; bottom:0;');

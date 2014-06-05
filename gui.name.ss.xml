@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns:ss="http://tshibata.github.io/2013/stasc" style="position:absolute; left:0; right:0; top:0; bottom:0;">
-	<div style="position:absolute; left:0; right:0; top:0; bottom:0; background-color:gray; opacity:0.5;"/>
+	<div style="position:fixed; left:0; right:0; top:0; bottom:0; background-color:gray; opacity:0.5;"/>
 	<div style="position:absolute; left:0; right:0; top:0; bottom:0;">
 		<div style="margin-top:10em; margin-left:auto; margin-right:auto; padding: 5px; width:300px; background-color:white; border:1px solid; border-radius: 5px;">
 			<img src="folder.png" align="center" style="opacity:0.5;"/>
