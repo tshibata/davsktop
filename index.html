@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="davsktop.css"/>
 <script content="text/javascript">
 // default configuration
+DAV_ROOT = "/";
 BACKGROUND_IMAGE = undefined;
 TEXT_MIME_PATTERN = /^text\//;
 TEXT_PATH_PATTERN = /\.txt$/;
@@ -435,11 +436,11 @@ window.onload = function() {
 	document.title = "Davsktop (" + window.location.host + ")";
 	document.body.setAttribute("background", BACKGROUND_IMAGE);
 	var req = new XMLHttpRequest();
-	req.open("PROPFIND", "/", true);
+	req.open("PROPFIND", DAV_ROOT, true);
 	req.setRequestHeader("Depth", "0");
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) {
-			parseProp("/", req.responseXML);
+			parseProp(DAV_ROOT, req.responseXML);
 			document.getElementById("rootfolder").style.visibility = "visible";
 		}
 	};
@@ -448,7 +449,7 @@ window.onload = function() {
 </script>
 </head>
 <body style="background-size:cover;">
-<img id="rootfolder" src="rootfolder.png" style="cursor:pointer; opacity:0.5; visibility:hidden;" onclick="openPath('/');" title="Root Folder"/>
+<img id="rootfolder" src="rootfolder.png" style="cursor:pointer; opacity:0.5; visibility:hidden;" onclick="openPath(DAV_ROOT);" title="Root Folder"/>
 <br/>
 <img src="newfolder.png" style="cursor:move; opacity:0.5;" draggable="true" ondragstart="newFile('new folder', event);" title="New Folder"/>
 <br/>
